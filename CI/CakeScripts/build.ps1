@@ -88,8 +88,9 @@ function GetProxyEnabledWebClient
 Write-Host "Preparing to run build script..."
 
 if(!$PSScriptRoot){
-    $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+    $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path
 }
+Set-Location -Path $PSScriptRoot
 
 $TOOLS_DIR = Join-Path $PSScriptRoot "tools"
 $ADDINS_DIR = Join-Path $TOOLS_DIR "Addins"

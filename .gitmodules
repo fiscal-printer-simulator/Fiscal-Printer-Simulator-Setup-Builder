@@ -1,0 +1,6 @@
+[submodule "SourceCodes/FiscalPrinterSimulatorClient"]
+	path = SourceCodes/FiscalPrinterSimulatorClient
+	url = https://github.com/fiscal-printer-simulator/Fiscal-Printer-Simulator-Client.git
+[submodule "SourceCodes/FiscalPrinterSimulatorService"]
+	path = SourceCodes/FiscalPrinterSimulatorService
+	url = https://github.com/fiscal-printer-simulator/Fiscal-Printer-Simulator-Service.git

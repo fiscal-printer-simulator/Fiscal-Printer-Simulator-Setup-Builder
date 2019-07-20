@@ -1,8 +1,9 @@
 Delivery/*
-Resources/Binaries/*
+Resources/*Binaries/*
 CI/CakeScripts/tools/*
+CI/CakeScripts/TestResult.xml
 CI/WixInstaller/packages/*
 !CI/CakeScripts/tools/packages.config
 CI/WixInstaller/FiscalPrinterSimulatorInstaller/obj/*
 CI/WixInstaller/FiscalPrinterSimulatorInstaller/bin/*
-CI/.vs/WixInstaller/v16/.suo
+CI/WixInstaller/.vs/*

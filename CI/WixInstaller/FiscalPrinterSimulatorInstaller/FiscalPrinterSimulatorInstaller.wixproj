@@ -15,11 +15,10 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <OutputPath>..\..\..\Delivery\Instalators\$(Platform)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\</IntermediateOutputPath>
+   
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x64' ">
     <OutputPath>..\..\..\Delivery\Instalators\$(Platform)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Translations\" />

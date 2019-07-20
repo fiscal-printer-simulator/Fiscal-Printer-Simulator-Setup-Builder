@@ -109,7 +109,7 @@ CONTENT of Instalator:
   <Fragment>
     <ComponentGroup Id="compGroup_DesktopApp" Directory="FP_BIN_DIR">
       <Component>
-        <File Id='file_FPSimulator_DesktopClientApp' Name='FiscalPrinterSimulatorClient.exe' Source='$(var.BinariesResourcesDir)FiscalPrinterSimulatorClient.exe' KeyPath='yes'/>
+        <File Id='file_FPSimulator_DesktopClientApp' Name='FiscalPrinterSimulatorClient.exe' Source='$(var.BinariesResourcesDir)Client\Fiscal Printer Simulator Client 0.1.0.exe' KeyPath='yes'/>
         <Shortcut Id='desktopShortCut_FPSimulator_ClientApp' Icon='win_desktop_app.exe' Directory='DesktopFolder' Name='Fiscal Printer Simulator' Advertise='yes' WorkingDirectory='INSTALLFOLDER'/>
         <Shortcut Id='menuShortCut_FPSimulator_ClientApp' Icon='win_desktop_app.exe' Directory='ProgramMenuFolder' Name='Fiscal Printer Simulator' Advertise='yes' WorkingDirectory='INSTALLFOLDER'/>
       </Component>
