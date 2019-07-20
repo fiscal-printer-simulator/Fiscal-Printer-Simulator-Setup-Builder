@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-US" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="descMainAppNodeTitle">Application</String>
+  <String Id="descMainAppNode">Main component of the application</String>
+
+  <String Id="descDesktopAppNodeTitle">Fiscal Printer Simulator Client</String>
+  <String Id="descDesktopAppNode">The application provides the ability to manage the Fiscal Printer Simulator service. It enables connecting to a specific serial port (for sending commands), reading printed receipts, and messages on the customer's display.</String>
+
+  <String Id="descWinServiceAppNodeTitle">Fiscal Printer Simulator Service</String>
+  <String Id="descWinServiceAppNode">A service that simulates the work of a connected Fiscal Printer. Thanks to it you can check the operation of your POS application and use Diagnostic Tools in the absence of connected physical device.</String>
+
+  <String Id="descDiagnosticToolNodeTitle">Fiscal Printer Diagnostic Tool</String>
+  <String Id="descDiagnosticToolNode">Diagnostic tool for fiscal printer. Both for tests on the simulator and on the physical device.</String>
+
+  <String Id="launchAppAfterInstall">Launch Simulator after instalator close.</String>
+</WixLocalization>

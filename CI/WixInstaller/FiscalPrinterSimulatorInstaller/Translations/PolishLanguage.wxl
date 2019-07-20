@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="pl-PL" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="descMainAppNodeTitle">Aplikacja</String>
+  <String Id="descMainAppNode">Główny składnik systemu</String>
+
+  <String Id="descDesktopAppNodeTitle">Klient Symulatora Drukarki Fiskalnej</String>
+  <String Id="descDesktopAppNode">Aplikacja zapewnia możliwość zarządzania usługą Symulatora Drukarki Fiskalnej. Umożliwia podpięcie się do konkretnego portu szeregowego (w celu wysyłania komend), odczyt drukowanych paragonów, oraz komunikatów na wyświetlaczu klienta.</String>
+
+  <String Id="descWinServiceAppNodeTitle">Usługa Symulatora Drukarki Fiskalnej</String>
+  <String Id="descWinServiceAppNode">Usługa symulująca pracę podpiętej Drukarki Fiskalnej. Dzięki niej można sprawdzić działanie twojej aplikacji POS'owej oraz używać Narzędzi Diagnostycznych w przypadku braku podpiętego fizycznego użądzenia.</String>
+
+  <String Id="descDiagnosticToolNodeTitle">Narzędzie do diagnostyki Drukarki Fiskalnej</String>
+  <String Id="descDiagnosticToolNode">Narzędzie diagnostyczne do drukarki fiskalnej. Zarówno do testów na symulatorze, jak i na fizycznym urządzeniu.</String>
+
+  <String Id="launchAppAfterInstall">Uruchom symulator po zakończeniu instalacji.</String>
+</WixLocalization>

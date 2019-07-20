@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--TODO : 
+1. Change licence text in english => english on polish => polish
+2. Add required icon to control panel.
+
+CONTENT of Instalator:
+- Windows Service
+- Windows Client 
+- Diagnostic tool
+-->
+
+<?define ResourcesDir="..\..\..\Resources\" ?>
+
+<?if $(var.Platform) = x64?>
+<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+<?else?>
+<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+<?endif?>
+
+<?define RegistryPath="Software\[Manufacturer]\[ProductName]" ?>
+<?define GraphicsResourcesDir="$(var.ResourcesDir)Graphics\" ?>
+<?define BinariesResourcesDir="$(var.ResourcesDir)Binaries\" ?>
+
+<?define LicencePath="$(var.ResourcesDir)Licences\Licence-en.rtf" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Codepage="1252" Id="*" Name="Fiscal Printer Simulator $(var.Platform)" Language="1033" Version="1.0.0.0" Manufacturer="Michal Wojcik" UpgradeCode="95aadacf-8276-40a1-8abb-ecb9123b408a">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <Icon Id="win_desktop_app.exe" SourceFile="$(var.GraphicsResourcesDir)win_icon.ico"/>
+    <UIRef Id="WixUI_Mondo"/>
+    <MediaTemplate EmbedCab="yes" />
+    <FeatureGroupRef Id="feature_group_simulator_windows_service"/>
+
+    <!--<UI>
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+    </UI>-->
+
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.LicencePath)"/>
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.GraphicsResourcesDir)installationHeader.png" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.GraphicsResourcesDir)WelcomeInstallBitmap.png" />
+
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="!(loc.launchAppAfterInstall)"/>
+
+    <!--<CustomAction Id="LaunchApplication" FileKey="file_FPSimulator_DesktopClientApp" ExeCommand="" Return="asyncNoWait"/>-->
+  </Product>
+
+  <!-- Catalogs structure -->
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="$(var.PlatformProgramFilesFolder)">
+        <Directory Id="INSTALLFOLDER" Name="Fiscal Printer Simulator">
+          <Directory Id="FP_BIN_DIR" Name="bin"/>
+          <Directory Id="FP_CONFIG_DIR" Name="config"/>
+        </Directory>
+      </Directory>
+      <Directory Id="DesktopFolder" Name="Desktop"/>
+      <Directory Id="ProgramMenuFolder" Name="ProgramMenu"/>
+    </Directory>
+  </Fragment>
+
+  <!-- Fiscal Printer Simulator Desktop App Feature Definition-->
+  <Fragment>
+    <FeatureGroup Id="feature_group_simulator_windows_service">
+      <Feature Id="feature_main" Title="!(loc.descMainAppNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descMainAppNode)" ConfigurableDirectory="INSTALLFOLDER">
+        <Feature Id="feature_app_desktop" Title="!(loc.descDesktopAppNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppNode)">
+          <ComponentGroupRef Id="compGroup_DesktopApp"/>
+        </Feature>
+        <Feature Id="feature_simulator_windows_service" Title="!(loc.descWinServiceAppNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descWinServiceAppNode)">
+          <ComponentGroupRef Id="compGroup_simulator_windows_service"/>
+        </Feature>
+        <Feature Id="feature_diagnostic_tool" Title="!(loc.descDiagnosticToolNodeTitle)" Level="2" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDiagnosticToolNode)">
+          <ComponentGroupRef Id="compGroup_DiagnosticTool"/>
+        </Feature>
+      </Feature>
+    </FeatureGroup>
+  </Fragment>
+
+  <!--Simulator Windows Service Components-->
+  <Fragment>
+    <ComponentGroup Id="compGroup_simulator_windows_service" Directory="FP_BIN_DIR">
+      <Component>
+        <RegistryValue Root='HKCU' Key='$(var.RegistryPath)' Name='WindowsService' Type='integer' Value='0' KeyPath='yes' />
+      </Component>
+      <Component>
+        <File Name='Newtonsoft.Json.dll' Source='$(var.BinariesResourcesDir)Newtonsoft.Json.dll' KeyPath='yes' />
+      </Component>
+      <Component>
+        <File Name='Fleck.dll' Source='$(var.BinariesResourcesDir)Fleck.dll' KeyPath='yes' />
+      </Component>
+      <Component>
+        <File Name='BaseFiscalPrinterSimulatorLibraries.dll' Source='$(var.BinariesResourcesDir)BaseFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
+      </Component>
+      <Component>
+        <File Name='ThermalFiscalPrinterSimulatorLibraries.dll' Source='$(var.BinariesResourcesDir)ThermalFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
+      </Component>
+      <Component>
+        <File Id='file_FPSimulator_WebsocketWindowsService' Name='FiscalPrinterSimulatorService.exe' Source='$(var.BinariesResourcesDir)FiscalPrinterSimulatorService.exe' KeyPath='yes'/>
+        <ServiceInstall Id='serviceInstall_WebsocketWindowsService' Type='ownProcess' Name='FiscalPrinterSimulatorService' DisplayName='Fiscal Printer Simulator' Description='Fiscal Printer Websocket Based Simulator. Helps to develop with POS likely applications.' Start='auto' Account="[SERVICEACCOUNT]" Password="[SERVICEPASSWORD]" ErrorControl="normal" Arguments=" /start FiscalPrinterSimulatorService"/>
+        <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="FiscalPrinterSimulatorService" Wait="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+
+
+  <!--Simulator Desktop Application Components-->
+  <Fragment>
+    <ComponentGroup Id="compGroup_DesktopApp" Directory="FP_BIN_DIR">
+      <Component>
+        <File Id='file_FPSimulator_DesktopClientApp' Name='FiscalPrinterSimulatorClient.exe' Source='$(var.BinariesResourcesDir)FiscalPrinterSimulatorClient.exe' KeyPath='yes'/>
+        <Shortcut Id='desktopShortCut_FPSimulator_ClientApp' Icon='win_desktop_app.exe' Directory='DesktopFolder' Name='Fiscal Printer Simulator' Advertise='yes' WorkingDirectory='INSTALLFOLDER'/>
+        <Shortcut Id='menuShortCut_FPSimulator_ClientApp' Icon='win_desktop_app.exe' Directory='ProgramMenuFolder' Name='Fiscal Printer Simulator' Advertise='yes' WorkingDirectory='INSTALLFOLDER'/>
+      </Component>
+      <!--<Component>
+        <File Id='file_FPSimulator_DesktopClientAppConfig' Name='FiscalPrinterSimulator.exe.config' Source='$(var.BinariesResourcesDir)FiscalPrinterSimulator.exe.config' KeyPath='yes'/>
+      </Component>-->
+    </ComponentGroup>
+  </Fragment>
+
+
+
+  <!--Simulator Windows Service Components-->
+  <Fragment>
+    <ComponentGroup Id="compGroup_DiagnosticTool" Directory="FP_BIN_DIR">
+      <Component>
+        <RemoveFolder Id='INSTALLFOLDER' On='uninstall'/>
+        <RegistryValue Root='HKCU' Key='$(var.RegistryPath)' Name='DiagnosticTool' Type='integer' Value='0' KeyPath='yes' />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+</Wix>
