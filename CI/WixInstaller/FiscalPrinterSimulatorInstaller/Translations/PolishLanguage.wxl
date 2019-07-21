@@ -2,8 +2,17 @@
 <WixLocalization Culture="pl-PL" xmlns="http://schemas.microsoft.com/wix/2006/localization">
   <String Id="culture" >pl</String>
 
-  <String Id="descMainAppNodeTitle">Aplikacja</String>
-  <String Id="descMainAppNode">Główny składnik systemu</String>
+  <String Id="InstallFolderPathChooseDialog_InfoLabel">Lokalizacja: </String>
+  <String Id="InstallFolderPathChooseDialog_ChooseBtnLabel">Wybierz...</String>
+  
+  <String Id="descDesktopAppTranslationsMainNodeTitle">Opcje Językowe</String>
+  <String Id="descDesktopAppTranslationsMainNode">...</String>
+
+  <String Id="descDesktopAppTranslationsENNodeTitle">Angielski</String>
+  <String Id="descDesktopAppTranslationsENNode">...</String>
+
+  <String Id="descDesktopAppTranslationsPLNodeTitle">Polski</String>
+  <String Id="descDesktopAppTranslationsPLNode">...</String>
 
   <String Id="descDesktopAppNodeTitle">Klient Symulatora Drukarki Fiskalnej</String>
   <String Id="descDesktopAppNode">Aplikacja zapewnia możliwość zarządzania usługą Symulatora Drukarki Fiskalnej. Umożliwia podpięcie się do konkretnego portu szeregowego (w celu wysyłania komend), odczyt drukowanych paragonów, oraz komunikatów na wyświetlaczu klienta.</String>
@@ -15,4 +24,7 @@
   <String Id="descDiagnosticToolNode">Narzędzie diagnostyczne do drukarki fiskalnej. Zarówno do testów na symulatorze, jak i na fizycznym urządzeniu.</String>
 
   <String Id="launchAppAfterInstall">Uruchom symulator po zakończeniu instalacji.</String>
+
+  <String Id="InstallFolderPathChooseDialogTitle">{\WixUI_Font_Title}Wybierz folder główny aplikacji</String>
+  <String Id="InstallFolderPathChooseDialogDescription">Wybierz folder w którym zostanie zainstalowana Aplikacja</String>
 </WixLocalization>

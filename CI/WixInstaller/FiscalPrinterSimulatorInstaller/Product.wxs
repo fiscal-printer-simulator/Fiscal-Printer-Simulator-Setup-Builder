@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--TODO : 
-1. Custom dialog to set RootPath INSTALLDIR
+1. Check if translations is selected - Windows Service MUST! be selected as INSTALL
+2. Add Descriptions for translations features.
 
 CONTENT of Instalator:
 - Windows Service
@@ -20,6 +21,7 @@ CONTENT of Instalator:
 <?define RegistryPath="Software\[Manufacturer]\[ProductName]" ?>
 <?define GraphicsResourcesDir="$(var.ResourcesDir)Graphics\" ?>
 <?define BinariesResourcesDir="$(var.ResourcesDir)Binaries\" ?>
+<?define TranslationsResourcesDir="$(var.BinariesResourcesDir)Translations\"?>
 
 <?define LicenceFileBase="$(var.ResourcesDir)Licences\Licence" ?>
 
@@ -36,7 +38,13 @@ CONTENT of Instalator:
     <UI>
       <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDialogOverwritten">1</Publish>
       <Publish Dialog="LicenseAgreementDialogOverwritten" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
-      <Publish Dialog="LicenseAgreementDialogOverwritten" Control="Next" Event="NewDialog" Value="SetupTypeDlg">LicenseAcceptedOverwritten = "1" AND NOT OLDER_VERSION_FOUND</Publish>
+      <Publish Dialog="LicenseAgreementDialogOverwritten" Control="Next" Event="NewDialog" Value="InstallFolderPathChooseDialog">LicenseAcceptedOverwritten = "1" AND NOT OLDER_VERSION_FOUND</Publish>
+
+      <Publish Dialog="InstallFolderPathChooseDialog" Control="Back" Event="NewDialog" Value="LicenseAgreementDialogOverwritten">1</Publish>
+      <Publish Dialog="InstallFolderPathChooseDialog" Control="Next" Event="NewDialog" Value="SetupTypeDlg">1</Publish>
+      
+      <Publish Dialog="SetupTypeDlg" Control="Back" Event="NewDialog" Value="InstallFolderPathChooseDialog">1</Publish>
+
       <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
     </UI>
 
@@ -54,7 +62,9 @@ CONTENT of Instalator:
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="$(var.PlatformProgramFilesFolder)">
         <Directory Id="INSTALLFOLDER" Name="Fiscal Printer Simulator">
-          <Directory Id="FP_BIN_DIR" Name="bin"/>
+          <Directory Id="FP_BIN_DIR" Name="bin">
+            <Directory Id="FP_BIN_TRANSLATIONS_DIR" Name="Translations"/>
+          </Directory>
           <Directory Id="FP_CONFIG_DIR" Name="config"/>
         </Directory>
       </Directory>
@@ -68,9 +78,16 @@ CONTENT of Instalator:
   <!-- Fiscal Printer Simulator Desktop App Feature Definition-->
   <Fragment>
     <FeatureGroup Id="feature_group_simulator_windows_service">
-      <Feature Id="feature_main" Title="!(loc.descMainAppNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descMainAppNode)" ConfigurableDirectory="INSTALLFOLDER">
         <Feature Id="feature_app_desktop" Title="!(loc.descDesktopAppNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppNode)">
           <ComponentGroupRef Id="compGroup_DesktopApp"/>
+          <Feature Id="feature_app_desktop_translations"  Title="!(loc.descDesktopAppTranslationsMainNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppTranslationsMainNode)">
+            <Feature Id="feature_app_desktop_translationsEN" Title="!(loc.descDesktopAppTranslationsENNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppTranslationsENNode)">
+              <ComponentGroupRef Id="compGroup_DesktopAppTranslationsEN" />
+            </Feature>
+            <Feature Id="feature_app_desktop_translationsPL"  Title="!(loc.descDesktopAppTranslationsPLNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppTranslationsPLNode)">
+              <ComponentGroupRef Id="compGroup_DesktopAppTranslationsPL"/>
+            </Feature>
+          </Feature>
         </Feature>
         <Feature Id="feature_simulator_windows_service" Title="!(loc.descWinServiceAppNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descWinServiceAppNode)">
           <ComponentGroupRef Id="compGroup_simulator_windows_service"/>
@@ -78,7 +95,6 @@ CONTENT of Instalator:
         <Feature Id="feature_diagnostic_tool" Title="!(loc.descDiagnosticToolNodeTitle)" Level="2" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDiagnosticToolNode)">
           <ComponentGroupRef Id="compGroup_DiagnosticTool"/>
         </Feature>
-      </Feature>
     </FeatureGroup>
   </Fragment>
 
@@ -121,9 +137,28 @@ CONTENT of Instalator:
     </ComponentGroup>
   </Fragment>
 
+  <!--Simulator Desktop Application Translations EN Components-->
+  <Fragment>
+    <ComponentGroup Id="compGroup_DesktopAppTranslationsEN" Directory="FP_BIN_TRANSLATIONS_DIR">
+      <Component>
+        <File Id='file_FPSimulator_DesktopClientAppTranslationEN' Name='translations-en.json' Source='$(var.TranslationsResourcesDir)translations-en.json' KeyPath='yes'/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+  
+  
+  <!--Simulator Desktop Application Translations PL Components-->
+  <Fragment>
+    <ComponentGroup Id="compGroup_DesktopAppTranslationsPL" Directory="FP_BIN_TRANSLATIONS_DIR">
+      <Component>
+        <File Id='file_FPSimulator_DesktopClientAppTranslationPL' Name='translations-pl.json' Source='$(var.TranslationsResourcesDir)translations-pl.json' KeyPath='yes'/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
 
 
-  <!--Simulator Windows Service Components-->
+
+  <!--Diagnostic Tool Components-->
   <Fragment>
     <ComponentGroup Id="compGroup_DiagnosticTool" Directory="FP_BIN_DIR">
       <Component>
@@ -161,6 +196,38 @@ CONTENT of Instalator:
         <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
         <Control Id="Description" Type="Text" X="25" Y="23" Width="340" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.LicenseAgreementDlgDescription)" />
         <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.LicenseAgreementDlgTitle)" />
+      </Dialog>      
+    </UI>
+  </Fragment>
+
+  <!--Choose root path of Application Dialog-->
+  <Fragment>
+    <UI>
+      <Dialog Id="InstallFolderPathChooseDialog" Width="370" Height="270">
+        <!--<Control Id="LicenseAcceptedOverwrittenCheckBox" Type="CheckBox" X="20" Y="207" Width="330" Height="18" CheckBoxValue="1" Property="LicenseAcceptedOverwritten" Text="!(loc.LicenseAgreementDlgLicenseAcceptedCheckBox)" />-->
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
+          <Publish Event="SpawnWaitDialog" Value="WaitForCostingDlg">CostingComplete = 1</Publish>
+          <Condition Action="disable">
+            <![CDATA[ LicenseAcceptedOverwritten <> "1" ]]>
+          </Condition>
+          <Condition Action="enable">LicenseAcceptedOverwritten = "1"</Condition>
+        </Control>
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.LicenseAgreementDlgBannerBitmap)" />
+        <Control Id="InstallFolderPathChooseControlLabel" Type="Text" Text="!(loc.InstallFolderPathChooseDialog_InfoLabel)" X="25" Y="180" Width="50" Height="17"   />
+        <Control Id="InstallFolderPathChooseControl" Type="PathEdit" X="85" Y="180" Width="200" Height="17" Property="INSTALLFOLDER" />
+        <Control Id="btnDirBrowse" Type="PushButton"  X="290" Y="180" Width="60" Height="17"  Text="!(loc.InstallFolderPathChooseDialog_ChooseBtnLabel)" >
+          <Publish Property="_BrowseProperty" Value="INSTALLFOLDER" Order="1">1</Publish>
+          <Publish Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
+        </Control>
+        
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+        <Control Id="Description" Type="Text" X="25" Y="23" Width="340" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.InstallFolderPathChooseDialogDescription)" />
+        <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.InstallFolderPathChooseDialogTitle)" />
       </Dialog>
     </UI>
   </Fragment>

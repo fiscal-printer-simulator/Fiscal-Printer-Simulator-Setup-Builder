@@ -2,8 +2,18 @@
 <WixLocalization Culture="en-US" xmlns="http://schemas.microsoft.com/wix/2006/localization">
   <String Id="culture" >en</String>
 
-  <String Id="descMainAppNodeTitle">Application</String>
-  <String Id="descMainAppNode">Main component of the application</String>
+  <String Id="InstallFolderPathChooseDialog_InfoLabel">Localization: </String>
+  <String Id="InstallFolderPathChooseDialog_ChooseBtnLabel">Choose...</String>
+
+  <String Id="descDesktopAppTranslationsMainNodeTitle">Translations</String>
+  <String Id="descDesktopAppTranslationsMainNode">...</String>
+
+  <String Id="descDesktopAppTranslationsENNodeTitle">English</String>
+  <String Id="descDesktopAppTranslationsENNode">...</String>
+
+  <String Id="descDesktopAppTranslationsPLNodeTitle">Polish</String>
+  <String Id="descDesktopAppTranslationsPLNode">...</String>
+
 
   <String Id="descDesktopAppNodeTitle">Fiscal Printer Simulator Client</String>
   <String Id="descDesktopAppNode">The application provides the ability to manage the Fiscal Printer Simulator service. It enables connecting to a specific serial port (for sending commands), reading printed receipts, and messages on the customer's display.</String>
@@ -15,4 +25,7 @@
   <String Id="descDiagnosticToolNode">Diagnostic tool for fiscal printer. Both for tests on the simulator and on the physical device.</String>
 
   <String Id="launchAppAfterInstall">Launch Simulator after instalator close.</String>
+
+  <String Id="InstallFolderPathChooseDialogTitle">{\WixUI_Font_Title}Select the application's root folder</String>
+  <String Id="InstallFolderPathChooseDialogDescription">Select the folder in which the Application will be installed</String>
 </WixLocalization>
