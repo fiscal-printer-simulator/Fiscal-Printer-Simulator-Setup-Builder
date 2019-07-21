@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WixLocalization Culture="en-US" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="culture" >en</String>
+
   <String Id="descMainAppNodeTitle">Application</String>
   <String Id="descMainAppNode">Main component of the application</String>
 
