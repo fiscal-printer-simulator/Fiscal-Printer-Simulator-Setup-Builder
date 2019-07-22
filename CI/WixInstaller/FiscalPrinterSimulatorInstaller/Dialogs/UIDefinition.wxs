@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+    <UI Id="CustomUIDefinition">
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDialogOverwritten">1</Publish>
+      <Publish Dialog="LicenseAgreementDialogOverwritten" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+      <Publish Dialog="LicenseAgreementDialogOverwritten" Control="Next" Event="NewDialog" Value="InstallFolderPathChooseDialog">LicenseAcceptedOverwritten = "1" AND NOT OLDER_VERSION_FOUND</Publish>
+
+      <Publish Dialog="InstallFolderPathChooseDialog" Control="Back" Event="NewDialog" Value="LicenseAgreementDialogOverwritten">1</Publish>
+      <Publish Dialog="InstallFolderPathChooseDialog" Control="Next" Event="NewDialog" Value="SetupTypeDlg">1</Publish>
+
+      <Publish Dialog="SetupTypeDlg" Control="Back" Event="NewDialog" Value="InstallFolderPathChooseDialog">1</Publish>
+      <Publish Dialog="SetupTypeDlg" Control="CustomButton" Event="NewDialog" Value="CustomizeDlgOverwritten">1</Publish>
+
+
+      <Publish Dialog="CustomizeDlgOverwritten" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">WixUI_InstallMode = "Change"</Publish>
+      <Publish Dialog="CustomizeDlgOverwritten" Control="Back" Event="NewDialog" Value="SetupTypeDlg" Order="2">WixUI_InstallMode = "InstallCustom"</Publish>
+      <Publish Dialog="CustomizeDlgOverwritten" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+
+
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlgOverwritten" Order="1">WixUI_InstallMode = "InstallCustom"</Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlgOverwritten" Order="3">WixUI_InstallMode = "Change"</Publish>
+
+      <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlgOverwritten">1</Publish>
+
+
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+    </UI>
+	</Fragment>
+</Wix>

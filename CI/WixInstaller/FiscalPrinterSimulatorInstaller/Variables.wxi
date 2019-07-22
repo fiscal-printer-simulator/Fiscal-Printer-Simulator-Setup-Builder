@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <?define ResourcesDir="..\..\..\Resources\" ?>
+
+  <?if $(var.Platform) = x64?>
+  <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+  <?else?>
+  <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+  <?endif?>
+
+  <?define RegistryPath="Software\[Manufacturer]\[ProductName]" ?>
+  <?define GraphicsResourcesDir="$(var.ResourcesDir)Graphics\" ?>
+  <?define BinariesResourcesDir="$(var.ResourcesDir)Binaries\" ?>
+  <?define TranslationsResourcesDir="$(var.BinariesResourcesDir)Translations\"?>
+  <?define LicenceFileBase="$(var.ResourcesDir)Licences\Licence" ?>
+</Include>

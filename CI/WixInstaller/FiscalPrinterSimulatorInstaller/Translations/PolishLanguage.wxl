@@ -5,14 +5,14 @@
   <String Id="InstallFolderPathChooseDialog_InfoLabel">Lokalizacja: </String>
   <String Id="InstallFolderPathChooseDialog_ChooseBtnLabel">Wybierz...</String>
   
-  <String Id="descDesktopAppTranslationsMainNodeTitle">Opcje Językowe</String>
-  <String Id="descDesktopAppTranslationsMainNode">...</String>
+  <String Id="descDesktopAppTranslationsMainNodeTitle">Pakiety Językowe</String>
+  <String Id="descDesktopAppTranslationsMainNode">Pakiety językowe umożliwiające tłumaczenie interfejsu użytkownika aplikacji klienckiej. Do poprawnego działania tłumaczeń wymagane jest zainstalowanie aplikacji "Fiscal Printer Simulator Service"</String>
 
   <String Id="descDesktopAppTranslationsENNodeTitle">Angielski</String>
-  <String Id="descDesktopAppTranslationsENNode">...</String>
+  <String Id="descDesktopAppTranslationsENNode">Angielski pakiet językowy</String>
 
   <String Id="descDesktopAppTranslationsPLNodeTitle">Polski</String>
-  <String Id="descDesktopAppTranslationsPLNode">...</String>
+  <String Id="descDesktopAppTranslationsPLNode">Polski pakiet językowy</String>
 
   <String Id="descDesktopAppNodeTitle">Klient Symulatora Drukarki Fiskalnej</String>
   <String Id="descDesktopAppNode">Aplikacja zapewnia możliwość zarządzania usługą Symulatora Drukarki Fiskalnej. Umożliwia podpięcie się do konkretnego portu szeregowego (w celu wysyłania komend), odczyt drukowanych paragonów, oraz komunikatów na wyświetlaczu klienta.</String>

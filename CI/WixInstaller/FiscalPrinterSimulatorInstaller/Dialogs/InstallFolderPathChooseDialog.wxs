@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <!--Choose root path of Application Dialog-->
+  <Fragment>
+    <UI>
+      <Dialog Id="InstallFolderPathChooseDialog" Width="370" Height="270">
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
+          <Publish Event="SpawnWaitDialog" Value="WaitForCostingDlg">CostingComplete = 1</Publish>
+          <Condition Action="disable"><![CDATA[ INSTALLFOLDER = "C:\" ]]></Condition>
+          <Condition Action="enable"> <![CDATA[ INSTALLFOLDER <> "C:\" ]]></Condition>
+        </Control>
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.LicenseAgreementDlgBannerBitmap)" />
+        <Control Id="InstallFolderPathChooseControlLabel" Type="Text" Text="!(loc.InstallFolderPathChooseDialog_InfoLabel)" X="25" Y="180" Width="50" Height="17"   />
+        <Control Id="InstallFolderPathChooseControl" Type="PathEdit" X="85" Y="180" Width="200" Height="17" Property="INSTALLFOLDER" />
+        <Control Id="btnDirBrowse" Type="PushButton"  X="290" Y="180" Width="60" Height="17"  Text="!(loc.InstallFolderPathChooseDialog_ChooseBtnLabel)" >
+          <Publish Property="_BrowseProperty" Value="INSTALLFOLDER" Order="1">1</Publish>
+          <Publish Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
+        </Control>
+
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+        <Control Id="Description" Type="Text" X="25" Y="23" Width="340" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.InstallFolderPathChooseDialogDescription)" />
+        <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.InstallFolderPathChooseDialogTitle)" />
+      </Dialog>
+    </UI>
+  </Fragment>
+</Wix>
