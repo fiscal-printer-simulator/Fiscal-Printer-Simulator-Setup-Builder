@@ -12,6 +12,9 @@
     <OutputPath>bin\$(Platform)\</OutputPath>
     <IntermediateOutputPath>obj\$(Platform)\</IntermediateOutputPath>
     <Name>Setup.FiscalPrinterSimulator</Name>
+    <Version Condition=" '$(BuildNumber)' == '' ">0.0.2</Version>
+    <Version Condition=" '$(BuildNumber)' != '' ">$(AppVersion).$(BuildNumber)</Version>
+    <DefineConstants>Version=$(Version)</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <OutputPath>..\..\..\Delivery\Instalators\$(Platform)\</OutputPath>

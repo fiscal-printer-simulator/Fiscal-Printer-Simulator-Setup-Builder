@@ -12,7 +12,7 @@ CONTENT of Instalator:
 
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Codepage="1252" Id="*" Name="Fiscal Printer Simulator $(var.Platform)" Language="1033" Version="1.0.0.0" Manufacturer="Michal Wojcik" UpgradeCode="95aadacf-8276-40a1-8abb-ecb9123b408a">
+  <Product Codepage="1252" Id="*" Name="Fiscal Printer Simulator $(var.ProductBitDescription) $(var.Version)" Language="1033" Version="$(var.Version)" Manufacturer="Michal Wojcik" UpgradeCode="95aadacf-8276-40a1-8abb-ecb9123b408a">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <Icon Id="win_desktop_app.ico" SourceFile="$(var.GraphicsResourcesDir)win_icon.ico"/>
@@ -28,8 +28,14 @@ CONTENT of Instalator:
     <Property Id="ARPPRODUCTICON" Value="win_desktop_app.ico" />
 
     <CustomAction Id="LaunchApplication" FileKey="file_FPSimulator_DesktopClientApp" ExeCommand="" Return="asyncNoWait"/>
+    <CustomAction Id='setupService' Directory='INSTALLFOLDER' Execute='deferred' Impersonate='no' ExeCommand='cmd.exe \c sc failure \"${varserviceInstaller.ServiceName}\" reset= 0 actions= restart/{$(var.serviceRestartTime)}/restart/{$(var.serviceRestartTime)}/restart/{$(var.serviceRestartTime)}' Return='check' />
   </Product>
 
+  <Fragment>
+    <InstallExecuteSequence>
+        <Custom Action='setupService' After='InstallFinalize'/>
+    </InstallExecuteSequence>
+  </Fragment>
   <!-- Catalogs structure -->
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
@@ -56,11 +62,12 @@ CONTENT of Instalator:
           <Feature Id="feature_app_desktop" Title="!(loc.descDesktopAppNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppNode)">
             <ComponentGroupRef Id="compGroup_DesktopApp"/>
           </Feature>
-          <Feature Id="feature_app_desktop_translations"  Title="!(loc.descDesktopAppTranslationsMainNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppTranslationsMainNode)">
-            <Feature Id="feature_app_desktop_translationsEN" Title="!(loc.descDesktopAppTranslationsENNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppTranslationsENNode)">
+          <Feature Id="feature_app_desktop_translations"  Title="!(loc.descDesktopAppTranslationsMainNodeTitle)" Absent="disallow" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppTranslationsMainNode)">
+            <ComponentGroupRef Id="compGroup_DesktopAppTranslationsRoot" />
+            <Feature Id="feature_app_desktop_translationsEN" Title="!(loc.descDesktopAppTranslationsENNodeTitle)" Absent="disallow" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppTranslationsENNode)">
               <ComponentGroupRef Id="compGroup_DesktopAppTranslationsEN" />
             </Feature>
-            <Feature Id="feature_app_desktop_translationsPL"  Title="!(loc.descDesktopAppTranslationsPLNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppTranslationsPLNode)">
+            <Feature Id="feature_app_desktop_translationsPL"  Title="!(loc.descDesktopAppTranslationsPLNodeTitle)" InstallDefault="local" AllowAdvertise="yes" Description="!(loc.descDesktopAppTranslationsPLNode)" Level="2" TypicalDefault="advertise">
               <ComponentGroupRef Id="compGroup_DesktopAppTranslationsPL"/>
             </Feature>
           </Feature>
@@ -90,9 +97,9 @@ CONTENT of Instalator:
         <File Name='ThermalFiscalPrinterSimulatorLibraries.dll' Source='$(var.BinariesResourcesDir)ThermalFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
       </Component>
       <Component>
-        <File Id='file_FPSimulator_WebsocketWindowsService' Name='FiscalPrinterSimulatorService.exe' Source='$(var.BinariesResourcesDir)FiscalPrinterSimulatorService.exe' KeyPath='yes'/>
-        <ServiceInstall Id='serviceInstall_WebsocketWindowsService' Type='ownProcess' Name='FiscalPrinterSimulatorService' DisplayName='Fiscal Printer Simulator' Description='Fiscal Printer Websocket Based Simulator. Helps to develop with POS likely applications.' Start='auto' Account="[SERVICEACCOUNT]" Password="[SERVICEPASSWORD]" ErrorControl="normal" Arguments=" /start FiscalPrinterSimulatorService"/>
-        <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="FiscalPrinterSimulatorService" Wait="yes" />
+        <File Id='file_FPSimulator_WebsocketWindowsService' Name='$(var.FiscalPrinterSimulatorServiceName).exe' Source='$(var.BinariesResourcesDir)$(var.FiscalPrinterSimulatorServiceName).exe' KeyPath='yes'/>
+        <ServiceInstall Id='serviceInstall_WebsocketWindowsService' Type='ownProcess' Name='$(var.FiscalPrinterSimulatorServiceName)' DisplayName='Fiscal Printer Simulator' Description='Fiscal Printer Websocket Based Simulator. Helps to develop with POS likely applications.' Start='auto' Account="[SERVICEACCOUNT]" Password="[SERVICEPASSWORD]" ErrorControl="normal" Arguments=" /start $(var.FiscalPrinterSimulatorServiceName)"/>
+        <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="$(var.FiscalPrinterSimulatorServiceName)" Wait="yes" />
       </Component>
     </ComponentGroup>
   </Fragment>
@@ -106,6 +113,16 @@ CONTENT of Instalator:
         <File Id='file_FPSimulator_DesktopClientApp' Name='FiscalPrinterSimulatorClient.exe' Source='$(var.BinariesResourcesDir)Client\Fiscal Printer Simulator Client 0.1.0.exe' KeyPath='yes'/>
         <Shortcut Id='desktopShortCut_FPSimulator_ClientApp' Icon='win_desktop_app.ico' Directory='DesktopFolder' Name='Fiscal Printer Simulator' Advertise='yes' WorkingDirectory='FP_BIN_DIR'/>
         <Shortcut Id='menuShortCut_FPSimulator_ClientApp' Icon='win_desktop_app.ico' Directory='ProgramMenuFolder' Name='Fiscal Printer Simulator' Advertise='yes' WorkingDirectory='FP_BIN_DIR'/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <!--Simulator Desktop Application Translations Root Component-->
+  <Fragment>
+    <ComponentGroup Id="compGroup_DesktopAppTranslationsRoot" Directory="FP_BIN_DIR">
+      <Component Guid="70BF44FB-BE0C-4792-B179-9F1CA99A817C" Id="comp_ClearTranslationDir">
+        <RemoveFolder Id="FP_BIN_TRANSLATIONS_DIR" On="both"/>
+        <CreateFolder Directory="FP_BIN_DIR"/>
       </Component>
     </ComponentGroup>
   </Fragment>

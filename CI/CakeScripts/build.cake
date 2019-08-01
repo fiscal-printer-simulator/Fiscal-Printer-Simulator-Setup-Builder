@@ -1,19 +1,25 @@
 #addin "Cake.Npm&version=0.17.0"
 #tool "nuget:?package=NUnit.ConsoleRunner&version=3.10.0"
 
+string appVersion = "1.0.0";
+
+
 string rootPath = @"..\..\";
 string PFS_ClientPath = rootPath +  @"SourceCodes\FiscalPrinterSimulatorClient";
 string FPS_ServiceSolutionPath = rootPath + @"SourceCodes\FiscalPrinterSimulatorService\FiscalPrinterSimulator.sln";
 string WIX_InstallerSolutionPath = @"..\WixInstaller\FiscalPrinterSimulatorInstaller.sln";
-var targetPlatform = Argument ("targetPlatform","x64");
-var verbosity = Argument ("verboseBuild","true");
-
-var skipBuildFPS_Client = true;
+string targetPlatform = Argument ("targetPlatform","x86");
+string configuration = Argument ("configuration","Release");
+bool verbosity = HasArgument ("verbosity");
+bool skipBuildFPS_Client = HasArgument ("skip-client-build");
+string buildNumber = Argument("buildNumber","1");
 
 Task ("Init")
     .Does (() => {
         Information ("Start to build Fiscal Printer Simulator Instalator.");
-        Information ($"Building Instalator for platform: "+targetPlatform+".");
+        Information ("Platform: "+targetPlatform);
+        Information ("Configuration: "+configuration);
+        Information ("SkipBuildingClient: "+skipBuildFPS_Client);
     });
 
 Task ("Build Fiscal Printer Simulator Client")
@@ -25,6 +31,7 @@ Task ("Build Fiscal Printer Simulator Client")
             LogLevel = Cake.Npm.NpmLogLevel.Verbose,
             WorkingDirectory = PFS_ClientPath
         });
+        NpmRunScript("test:cov",settings => settings.FromPath (PFS_ClientPath));
         NpmRunScript("electron-pack-"+ targetPlatform, settings => settings.FromPath (PFS_ClientPath));
     });
 
@@ -33,9 +40,9 @@ Task ("Build Fiscal Printer Simulator Service")
     .Does (() => {
         MSBuild(FPS_ServiceSolutionPath, new MSBuildSettings {
                 Restore = true,
-                Verbosity = verbosity =="true" ? Verbosity.Verbose : Verbosity.Minimal,
+                Verbosity = verbosity ? Verbosity.Verbose : Verbosity.Minimal,
                 ToolVersion = MSBuildToolVersion.VS2019,
-                Configuration ="Release",
+                Configuration =configuration,
                 PlatformTarget = targetPlatform == "x64" ? PlatformTarget.x64 : PlatformTarget.x86
         });
       
@@ -47,10 +54,14 @@ Task ("Build Fiscal Printer Simulator Installer")
     .IsDependentOn ("Build Fiscal Printer Simulator Service")
     .Does (() => {
         MSBuild(WIX_InstallerSolutionPath, new MSBuildSettings {
-                Verbosity = verbosity =="true" ? Verbosity.Verbose : Verbosity.Minimal,
+                Verbosity = verbosity ? Verbosity.Verbose : Verbosity.Minimal,
                 ToolVersion = MSBuildToolVersion.VS2019,
-                Configuration ="Release",
-                PlatformTarget = targetPlatform == "x64" ? PlatformTarget.x64 : PlatformTarget.x86
+                Configuration =configuration,
+                PlatformTarget = targetPlatform == "x64" ? PlatformTarget.x64 : PlatformTarget.x86,
+                 EnvironmentVariables = new Dictionary<string, string>{
+                    {"AppVersion",appVersion },
+                    {"BuildNumber", buildNumber }
+                }
         });
     });
 

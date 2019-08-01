@@ -38,7 +38,7 @@ https://cakebuild.net
 [CmdletBinding()]
 Param(
     [string]$Script = "build.cake",
-    [string]$Target,
+    [ValidateSet("Debug", "Release")]
     [string]$Configuration,
     [ValidateSet("Quiet", "Minimal", "Normal", "Verbose", "Diagnostic")]
     [string]$Verbosity,
@@ -46,6 +46,9 @@ Param(
     [Alias("WhatIf", "Noop")]
     [switch]$DryRun,
     [switch]$SkipToolPackageRestore,
+    [switch]$SkipBuildingClient,
+    [ValidateSet("x86", "x64")]
+    [string]$TargetPlatform,
     [Parameter(Position=0,Mandatory=$false,ValueFromRemainingArguments=$true)]
     [string[]]$ScriptArgs
 )
@@ -69,7 +72,7 @@ function MD5HashFile([string] $filePath)
     }
     finally
     {
-        if ($file -ne $null)
+        if ($null -ne $file)
         {
             $file.Dispose()
         }
@@ -124,8 +127,8 @@ if (!(Test-Path $PACKAGES_CONFIG)) {
 if (!(Test-Path $NUGET_EXE)) {
     Write-Verbose -Message "Trying to find nuget.exe in PATH..."
     $existingPaths = $Env:Path -Split ';' | Where-Object { (![string]::IsNullOrEmpty($_)) -and (Test-Path $_ -PathType Container) }
-    $NUGET_EXE_IN_PATH = Get-ChildItem -Path $existingPaths -Filter "nuget.exe" | Select -First 1
-    if ($NUGET_EXE_IN_PATH -ne $null -and (Test-Path $NUGET_EXE_IN_PATH.FullName)) {
+    $NUGET_EXE_IN_PATH = Get-ChildItem -Path $existingPaths -Filter "nuget.exe" | Select-Object -First 1
+    if ($null -ne $NUGET_EXE_IN_PATH -and (Test-Path $NUGET_EXE_IN_PATH.FullName)) {
         Write-Verbose -Message "Found in PATH at $($NUGET_EXE_IN_PATH.FullName)."
         $NUGET_EXE = $NUGET_EXE_IN_PATH.FullName
     }
@@ -224,10 +227,11 @@ $CAKE_EXE_INVOCATION = if ($IsLinux -or $IsMacOS) {
 
 # Build Cake arguments
 $cakeArguments = @("$Script");
-if ($Target) { $cakeArguments += "-target=$Target" }
 if ($Configuration) { $cakeArguments += "-configuration=$Configuration" }
 if ($Verbosity) { $cakeArguments += "-verbosity=$Verbosity" }
 if ($ShowDescription) { $cakeArguments += "-showdescription" }
+if ($SkipBuildingClient) { $cakeArguments+= "-skip-client-build" }
+if ($TargetPlatform) { $cakeArguments+= "-targetPlatform=$TargetPlatform" }
 if ($DryRun) { $cakeArguments += "-dryrun" }
 $cakeArguments += $ScriptArgs
 

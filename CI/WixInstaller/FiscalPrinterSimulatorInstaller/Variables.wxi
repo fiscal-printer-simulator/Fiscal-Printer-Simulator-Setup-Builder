@@ -4,8 +4,10 @@
 
   <?if $(var.Platform) = x64?>
   <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+  <?define ProductBitDescription = ""?>
   <?else?>
   <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+  <?define ProductBitDescription = "32 bit"?>
   <?endif?>
 
   <?define RegistryPath="Software\[Manufacturer]\[ProductName]" ?>
@@ -13,4 +15,7 @@
   <?define BinariesResourcesDir="$(var.ResourcesDir)Binaries\" ?>
   <?define TranslationsResourcesDir="$(var.BinariesResourcesDir)Translations\"?>
   <?define LicenceFileBase="$(var.ResourcesDir)Licences\Licence" ?>
+  <?define serviceRestartTime=60 ?>
+  <?define FiscalPrinterSimulatorServiceName="FiscalPrinterSimulatorService"?>
+  
 </Include>
