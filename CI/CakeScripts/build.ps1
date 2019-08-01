@@ -38,6 +38,8 @@ https://cakebuild.net
 [CmdletBinding()]
 Param(
     [string]$Script = "build.cake",
+    [string]$ReleaseVersion = "1.0.0",
+    [string]$BuildVersion = "0",
     [ValidateSet("Debug", "Release")]
     [string]$Configuration,
     [ValidateSet("Quiet", "Minimal", "Normal", "Verbose", "Diagnostic")]
@@ -232,6 +234,8 @@ if ($Verbosity) { $cakeArguments += "-verbosity=$Verbosity" }
 if ($ShowDescription) { $cakeArguments += "-showdescription" }
 if ($SkipBuildingClient) { $cakeArguments+= "-skip-client-build" }
 if ($TargetPlatform) { $cakeArguments+= "-targetPlatform=$TargetPlatform" }
+if ($ReleaseVersion) { $cakeArguments+= "-releaseVersion=$ReleaseVersion" }
+if ($BuildVersion) { $cakeArguments+= "-buildNumber=$BuildVersion" }
 if ($DryRun) { $cakeArguments += "-dryrun" }
 $cakeArguments += $ScriptArgs
 

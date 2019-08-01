@@ -1,7 +1,7 @@
 #addin "Cake.Npm&version=0.17.0"
 #tool "nuget:?package=NUnit.ConsoleRunner&version=3.10.0"
 
-string appVersion = "1.0.0";
+
 
 
 string rootPath = @"..\..\";
@@ -12,7 +12,8 @@ string targetPlatform = Argument ("targetPlatform","x86");
 string configuration = Argument ("configuration","Release");
 bool verbosity = HasArgument ("verbosity");
 bool skipBuildFPS_Client = HasArgument ("skip-client-build");
-string buildNumber = Argument("buildNumber","1");
+string ReleaseVersion =  Argument("releaseVersion","1.0.0");"";
+string buildNumber = Argument("buildNumber","0");
 
 Task ("Init")
     .Does (() => {
@@ -59,7 +60,7 @@ Task ("Build Fiscal Printer Simulator Installer")
                 Configuration =configuration,
                 PlatformTarget = targetPlatform == "x64" ? PlatformTarget.x64 : PlatformTarget.x86,
                  EnvironmentVariables = new Dictionary<string, string>{
-                    {"AppVersion",appVersion },
+                    {"AppVersion",ReleaseVersion },
                     {"BuildNumber", buildNumber }
                 }
         });
