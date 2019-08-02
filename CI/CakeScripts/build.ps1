@@ -233,9 +233,9 @@ if ($Configuration) { $cakeArguments += "-configuration=$Configuration" }
 if ($Verbosity) { $cakeArguments += "-verbosity=$Verbosity" }
 if ($ShowDescription) { $cakeArguments += "-showdescription" }
 if ($SkipBuildingClient) { $cakeArguments+= "-skip-client-build" }
-if ($TargetPlatform) { $cakeArguments+= "-targetPlatform=$TargetPlatform" }
-if ($ReleaseVersion) { $cakeArguments+= "-releaseVersion=$ReleaseVersion" }
-if ($BuildVersion) { $cakeArguments+= "-buildNumber=$BuildVersion" }
+if ($TargetPlatform) { $cakeArguments+= "-targetPlatform='$TargetPlatform'" }
+if ($ReleaseVersion) { $cakeArguments+= "-releaseVersion='$ReleaseVersion'" }
+if ($BuildVersion) { $cakeArguments+= "-buildNumber='$BuildVersion'" }
 if ($DryRun) { $cakeArguments += "-dryrun" }
 $cakeArguments += $ScriptArgs
 

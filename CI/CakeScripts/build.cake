@@ -12,7 +12,7 @@ string targetPlatform = Argument ("targetPlatform","x86");
 string configuration = Argument ("configuration","Release");
 bool verbosity = HasArgument ("verbosity");
 bool skipBuildFPS_Client = HasArgument ("skip-client-build");
-string ReleaseVersion =  Argument("releaseVersion","1.0.0");"";
+string ReleaseVersion =  Argument("releaseVersion","1.0.0");
 string buildNumber = Argument("buildNumber","0");
 
 Task ("Init")
