@@ -1,0 +1,23 @@
+os: windows
+language: csharp
+language: node_js
+mono: none
+sudo: required
+dist: xenial
+dotnet: 2.2
+script:
+  - CI\CakeScripts\build.ps1 -Configuration=Release -TargetPlatform=x64
+before_deploy:
+  # Set up git user name and tag this commit
+  - git config --local user.name "wojcikmm"
+  - git config --local user.email "m.mwojcik@outlook.com"
+  #- export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  #- git tag $TRAVIS_TAG
+deploy:
+  provider: releases
+  api_key: GITHUB_TOKEN
+  file: "Delivery\SetupFiscalPrinterSimulatorx64-en_US.msi"
+  skip_cleanup: true
+  draft: true
+  on:
+    tags: true
