@@ -3,7 +3,8 @@ language: csharp
 mono: none
 sudo: required
 dist: xenial
-dotnet: 2.2
+dotnet: 2.1.502
+env: DOTNETCORE=2
 install:
   - Invoke-WebRequest "https://download.microsoft.com/download/9/B/B/9BB1309E-1A8F-4A47-A6C5-ECF76672A3B3/BuildTools_Full.exe" -OutFile "BuildTools_Full.exe"
   - BuildTools_Full.exe /Silent /Full
