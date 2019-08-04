@@ -11,7 +11,7 @@ deploy:
     tags: true
 dist: xenial
 dotnet: 2.2
-language: node_js
+language: csharp
 mono: none
 os: windows
 node_js:
