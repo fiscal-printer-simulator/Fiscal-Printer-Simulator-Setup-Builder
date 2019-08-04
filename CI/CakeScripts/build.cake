@@ -38,17 +38,12 @@ Task ("Build Fiscal Printer Simulator Client")
 
 Task ("Build Fiscal Printer Simulator Service")
     .IsDependentOn ("Build Fiscal Printer Simulator Client")
-    .Does (() => {
-        MSBuild(FPS_ServiceSolutionPath, new MSBuildSettings {
-                Restore = true,
-                Verbosity = verbosity ? Verbosity.Verbose : Verbosity.Minimal,
-                Configuration =configuration,
-                PlatformTarget = targetPlatform == "x64" ? PlatformTarget.x64 : PlatformTarget.x86
-        });
+    .Does (() => {   
+        var dotnetBuildVerbosityType  = "n"; // " --verbosity " + verbosity ? "n" : "m" +
+        var dotnetBuildCommand = $"build {FPS_ServiceSolutionPath} --configuration {configuration} --verbosity {dotnetBuildVerbosityType} /p:Platform={targetPlatform}";
+                
+        StartProcess("dotnet",dotnetBuildCommand);
         DotNetCoreTest(FPS_ServiceSolutionPath);
-
-        // var testAssemblies = GetFiles(rootPath + @"Resources\TestBinaries\*.Tests.dll");
-        // NUnit3(testAssemblies);
     });
 
 Task ("Build Fiscal Printer Simulator Installer")

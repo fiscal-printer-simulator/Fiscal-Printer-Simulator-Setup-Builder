@@ -19,5 +19,5 @@ node_js:
 install:
   - PowerShell -Command 'Set-ExecutionPolicy -ExecutionPolicy RemoteSigned'
 script: 
-  - Powershell -Command CI/CakeScripts/build.ps1 -Configuration=Release -TargetPlatform=x64
+  - Powershell -Command CI/CakeScripts/build.ps1 -Configuration=Release -TargetPlatform=x64 -SkipBuildingClient
 sudo: required
