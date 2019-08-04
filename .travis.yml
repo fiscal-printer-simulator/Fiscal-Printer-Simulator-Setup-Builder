@@ -1,3 +1,24 @@
+language: csharp
+mono: none
+sudo: required
+dist: xenial
+dotnet: 2.2
+node_js:
+  - 8
+cache:
+  directories:
+    - SourceCodes/FiscalPrinterSimulatorClient/node_modules
+script:
+  - cd SourceCodes/FiscalPrinterSimulatorClient/
+  - npm run build
+  - npm run test:cov
+  - cd ../../
+  - dotnet restore ./SourceCodes/FiscalPrinterSimulatorService
+  - dotnet build ./SourceCodes/FiscalPrinterSimulatorService --configuration Release --verbosity n /p:Platform=x64
+  - dotnet test ./SourceCodes/FiscalPrinterSimulatorService
+global:
+  - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+  - DOTNET_CLI_TELEMETRY_OPTOUT=1
 before_deploy: 
   - "git config --local user.name \"wojcikmm\""
   - "git config --local user.email \"m.mwojcik@outlook.com\""
@@ -9,15 +30,22 @@ deploy:
   skip_cleanup: true
   true: 
     tags: true
-dist: xenial
-dotnet: 2.2
-language: csharp
-mono: none
-os: windows
-node_js:
-  - 8
-install:
-  - PowerShell -Command 'Set-ExecutionPolicy -ExecutionPolicy RemoteSigned'
-script: 
-  - Powershell -Command CI/CakeScripts/build.ps1 -Configuration=Release -TargetPlatform=x64 -SkipBuildingClient
-sudo: required
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
