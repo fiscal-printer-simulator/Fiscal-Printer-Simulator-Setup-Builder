@@ -42,7 +42,6 @@ Task ("Build Fiscal Printer Simulator Service")
         MSBuild(FPS_ServiceSolutionPath, new MSBuildSettings {
                 Restore = true,
                 Verbosity = verbosity ? Verbosity.Verbose : Verbosity.Minimal,
-                ToolVersion = MSBuildToolVersion.VS2019,
                 Configuration =configuration,
                 PlatformTarget = targetPlatform == "x64" ? PlatformTarget.x64 : PlatformTarget.x86
         });
@@ -56,7 +55,6 @@ Task ("Build Fiscal Printer Simulator Installer")
     .Does (() => {
         MSBuild(WIX_InstallerSolutionPath, new MSBuildSettings {
                 Verbosity = verbosity ? Verbosity.Verbose : Verbosity.Minimal,
-                ToolVersion = MSBuildToolVersion.VS2019,
                 Configuration =configuration,
                 PlatformTarget = targetPlatform == "x64" ? PlatformTarget.x64 : PlatformTarget.x86,
                  EnvironmentVariables = new Dictionary<string, string>{
