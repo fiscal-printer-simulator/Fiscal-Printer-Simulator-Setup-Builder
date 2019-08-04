@@ -10,6 +10,7 @@ cache:
     - SourceCodes/FiscalPrinterSimulatorClient/node_modules
 script:
   - cd SourceCodes/FiscalPrinterSimulatorClient/
+  - npm install
   - npm run build
   - npm run test:cov
   - cd ../../
