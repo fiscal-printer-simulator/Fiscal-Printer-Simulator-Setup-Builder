@@ -1,4 +1,3 @@
---- 
 before_deploy: 
   - "git config --local user.name \"wojcikmm\""
   - "git config --local user.email \"m.mwojcik@outlook.com\""
@@ -15,6 +14,8 @@ dotnet: 2.2
 language: node_js
 mono: none
 os: windows
+node_js:
+  - 8
 script: 
   - "CI\\CakeScripts\\build.ps1 -Configuration=Release -TargetPlatform=x64"
 sudo: required
