@@ -45,9 +45,10 @@ Task ("Build Fiscal Printer Simulator Service")
                 Configuration =configuration,
                 PlatformTarget = targetPlatform == "x64" ? PlatformTarget.x64 : PlatformTarget.x86
         });
-      
-        var testAssemblies = GetFiles(rootPath + @"Resources\TestBinaries\*.Tests.dll");
-        NUnit3(testAssemblies);
+        DotNetCoreTest(FPS_ServiceSolutionPath);
+
+        // var testAssemblies = GetFiles(rootPath + @"Resources\TestBinaries\*.Tests.dll");
+        // NUnit3(testAssemblies);
     });
 
 Task ("Build Fiscal Printer Simulator Installer")
