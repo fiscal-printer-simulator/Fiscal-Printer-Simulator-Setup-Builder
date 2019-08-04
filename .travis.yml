@@ -1,10 +1,13 @@
+os: windows
 language: csharp
 mono: none
 sudo: required
 dist: xenial
 dotnet: 2.2
 install:
-  - sudo apt-get install mono-devel mono-gmcs
+  - Invoke-WebRequest "https://download.microsoft.com/download/9/B/B/9BB1309E-1A8F-4A47-A6C5-ECF76672A3B3/BuildTools_Full.exe" -OutFile "BuildTools_Full.exe"
+  - BuildTools_Full.exe /Silent /Full
+  - Install-WindowsFeature NET-Framework-47
 node_js:
   - 8
 cache:
@@ -19,7 +22,7 @@ script:
   - dotnet restore ./SourceCodes/FiscalPrinterSimulatorService
   - dotnet build ./SourceCodes/FiscalPrinterSimulatorService --configuration Release --verbosity n /p:Platform=x64
   - dotnet test ./SourceCodes/FiscalPrinterSimulatorService
-  - xbuild ./CI/FiscalPrinterSimulatorInstaller.sln
+  - MSBuild ./CI/FiscalPrinterSimulatorInstaller.sln
 global:
   - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
   - DOTNET_CLI_TELEMETRY_OPTOUT=1
