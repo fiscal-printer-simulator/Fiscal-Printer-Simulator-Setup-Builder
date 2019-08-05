@@ -4,7 +4,8 @@ dotnet: 2.2
 sudo: required
 dist: xenial
 install:
-  - Install-WindowsFeature NET-Framework-47
+  - dotnet restore ./SourceCodes/FiscalPrinterSimulatorService
+  - nuget restore ./CI/FiscalPrinterSimulatorInstaller.sln
 node_js:
   - 8
 cache:
@@ -16,9 +17,9 @@ script:
   - npm run build
   - npm run test:cov
   - cd ../../
-  - dotnet restore ./SourceCodes/FiscalPrinterSimulatorService
   - dotnet build ./SourceCodes/FiscalPrinterSimulatorService --configuration Release --verbosity n /p:Platform=x64
   - dotnet test ./SourceCodes/FiscalPrinterSimulatorService
+  - nuget restore ./CI/FiscalPrinterSimulatorInstaller.sln
   - msbuild ./CI/FiscalPrinterSimulatorInstaller.sln
 global:
   - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
