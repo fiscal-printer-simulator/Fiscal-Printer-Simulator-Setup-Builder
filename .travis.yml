@@ -4,8 +4,8 @@ dotnet: 2.2
 sudo: required
 dist: xenial
 install:
-  - sudo apt install nuget
-  - dotnet restore ./SourceCodes/FiscalPrinterSimulatorService
+  # - sudo apt install nuget
+  # - dotnet restore ./SourceCodes/FiscalPrinterSimulatorService
   - nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
 node_js:
   - 8
