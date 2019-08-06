@@ -21,7 +21,7 @@ script:
   - dotnet build ./SourceCodes/FiscalPrinterSimulatorService --configuration Release --verbosity n /p:Platform=x64
   - dotnet test ./SourceCodes/FiscalPrinterSimulatorService
   - nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
-  - ls ./CI/WixInstaller/packages
+  - mv ./CI/WixInstaller/packages/WiX.3.11.1/tools/light.exe ./CI/WixInstaller/packages/WiX.3.11.1/tools/Light.exe
   - ls ./CI/WixInstaller/packages/WiX.3.11.1/tools
   - msbuild ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
 global:
