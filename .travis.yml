@@ -1,6 +1,6 @@
 os: windows
 language: csharp
-dotnet: 2.2
+dotnet: 2.0
 sudo: required
 mono: none
 dist: xenial
