@@ -2,7 +2,7 @@ language: csharp
 dotnet: 2.2
 sudo: required
 dist: xenial
-solution: ./CI/FiscalPrinterSimulatorInstaller.sln
+solution: ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
 install:
   # - sudo apt install nuget
   # - dotnet restore ./SourceCodes/FiscalPrinterSimulatorService
@@ -20,7 +20,7 @@ script:
   - cd ../../
   - dotnet build ./SourceCodes/FiscalPrinterSimulatorService --configuration Release --verbosity n /p:Platform=x64
   - dotnet test ./SourceCodes/FiscalPrinterSimulatorService
-  - nuget restore ./CI/FiscalPrinterSimulatorInstaller.sln
+  - nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
   - msbuild ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
 global:
   - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
