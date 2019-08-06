@@ -2,11 +2,6 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\WiX.3.11.1\build\wix.props" Condition="Exists('..\packages\WiX.3.11.1\build\wix.props')" />
   <PropertyGroup>
-      <WixToolPath>$(SourceCodeControlRoot)\wix\[[Version]]\</WixToolPath>
-      <WixTargetsPath>$(WixToolPath)Wix.targets</WixTargetsPath>
-      <WixTasksPath>$(WixToolPath)wixtasks.dll</WixTasksPath>
-  </PropertyGroup>
-  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.10</ProductVersion>
