@@ -4,6 +4,7 @@ mono: latest
 dotnet: 2.2
 sudo: required
 dist: xenial
+solution: ./CI/FiscalPrinterSimulatorInstaller.sln
 install:
   # - sudo apt install nuget
   # - dotnet restore ./SourceCodes/FiscalPrinterSimulatorService
