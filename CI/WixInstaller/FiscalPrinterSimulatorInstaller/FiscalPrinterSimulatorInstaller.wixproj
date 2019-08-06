@@ -47,17 +47,4 @@
       <ErrorText>Ten projekt zawiera odwołania do pakietów NuGet, których nie ma na tym komputerze. Użyj przywracania pakietów NuGet, aby je pobrać. Aby uzyskać więcej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. Brakujący plik: {0}.</ErrorText>
     </PropertyGroup>
   </Target>
-  <PropertyGroup>
-    <PostBuildEvent>if "$(ConfigurationName)" == "Release" (
-      COPY en-US\$(TargetName)$(TargetExt) $(TargetName)-en_US$(TargetExt) 
-      RD /s /q en-Us
-      COPY pl-PL\$(TargetName)$(TargetExt) $(TargetName)-pl_PL$(TargetExt)
-      RD /s /q pl-PL
-      )</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>del %2a.msi
-RD /s /q en-Us
-RD /s /q pl-PL</PreBuildEvent>
-  </PropertyGroup>
 </Project>
