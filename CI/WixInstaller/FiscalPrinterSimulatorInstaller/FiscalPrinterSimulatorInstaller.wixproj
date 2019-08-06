@@ -9,7 +9,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>SetupFiscalPrinterSimulator$(Platform)</OutputName>
     <OutputType>Package</OutputType>
-    <OutputPath>..\..\..\Delivery\</OutputPath>
+    <OutputPath>Delivery</OutputPath>
     <IntermediateOutputPath>obj\$(Platform)\</IntermediateOutputPath>
     <Name>Setup.FiscalPrinterSimulator</Name>
     <Version Condition=" '$(BuildNumber)' == '' ">0.0.2</Version>
