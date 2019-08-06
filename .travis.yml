@@ -1,8 +1,6 @@
-os: windows
 language: csharp
-dotnet: 2.0
+dotnet: 2.2
 sudo: required
-mono: none
 dist: xenial
 solution: ./CI/FiscalPrinterSimulatorInstaller.sln
 install:
