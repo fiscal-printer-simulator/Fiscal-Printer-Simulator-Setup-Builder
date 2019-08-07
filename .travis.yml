@@ -20,10 +20,13 @@ script:
   - cd ../../
   - dotnet build ./SourceCodes/FiscalPrinterSimulatorService --configuration Release --verbosity n /p:Platform=x64
   - dotnet test ./SourceCodes/FiscalPrinterSimulatorService
-  - nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
-  - mv ./CI/WixInstaller/packages/WiX.3.11.1/tools/light.exe ./CI/WixInstaller/packages/WiX.3.11.1/tools/Light.exe
-  - ls ./CI/WixInstaller/packages/WiX.3.11.1/tools
-  - msbuild ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
+  #- nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
+  - cd ./CI/WixInstaller/FiscalPrinterSimulatorInstaller
+  - ../packages/WiX.3.11.1/tools/candle.exe -dPlatform=x64 -dVersion=0.0.1 Product.wxs -out myinstaller.wixobj
+  - ../packages/WiX.3.11.1/tools/light.exe myinstaller.wixobj -cultures:en-us -loc Translations/EnglishLanguage.wxl -out myInstaller-en-us.msi -ext ../packages/WiX.3.11.1/tools/WixUIExtension
+  #- mv ./CI/WixInstaller/packages/WiX.3.11.1/tools/light.exe ./CI/WixInstaller/packages/WiX.3.11.1/tools/Light.exe
+  #- ls ./CI/WixInstaller/packages/WiX.3.11.1/tools
+  #- msbuild ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
 global:
   - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
   - DOTNET_CLI_TELEMETRY_OPTOUT=1
