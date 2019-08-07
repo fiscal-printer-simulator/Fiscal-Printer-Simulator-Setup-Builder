@@ -22,6 +22,12 @@ script:
   - dotnet test ./SourceCodes/FiscalPrinterSimulatorService
   #- nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
   - cd ./CI/WixInstaller/FiscalPrinterSimulatorInstaller
+  - ls
+  - ls ../
+  - ls ../../
+  - ls ../../../
+  - ls ../../../Resources
+  - ls ../../../Resources/Binaries
   - ../packages/WiX.3.11.1/tools/candle.exe -dPlatform=x64 -dVersion=0.0.1 Product.wxs -out myinstaller.wixobj
   - ../packages/WiX.3.11.1/tools/light.exe myinstaller.wixobj -cultures:en-us -loc Translations/EnglishLanguage.wxl -out myInstaller-en-us.msi -ext ../packages/WiX.3.11.1/tools/WixUIExtension
   #- mv ./CI/WixInstaller/packages/WiX.3.11.1/tools/light.exe ./CI/WixInstaller/packages/WiX.3.11.1/tools/Light.exe
