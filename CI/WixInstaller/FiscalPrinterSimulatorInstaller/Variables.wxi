@@ -13,7 +13,7 @@
   <?define RegistryPath="Software\[Manufacturer]\[ProductName]" ?>
   <?define GraphicsResourcesDir="$(var.ResourcesDir)Graphics/" ?>
   <?define BinariesResourcesDir="$(var.ResourcesDir)Binaries/" ?>
-  <?define TranslationsResourcesDir="$(var.BinariesResourcesDir)Translations/"?>
+  <?define TranslationsResourcesDir="$(var.ResourcesDir)Translations/"?>
   <?define LicenceFileBase="$(var.ResourcesDir)Licences/Licence" ?>
   <?define serviceRestartTime=60 ?>
   <?define FiscalPrinterSimulatorServiceName="FiscalPrinterSimulatorService"?>
