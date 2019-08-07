@@ -84,17 +84,17 @@ CONTENT of Instalator:
       <Component>
         <RegistryValue Root='HKCU' Key='$(var.RegistryPath)' Name='WindowsService' Type='integer' Value='0' KeyPath='yes' />
       </Component>
-      <Component>
+      <!-- <Component>
         <File Name='Newtonsoft.Json.dll' Source='$(var.BinariesResourcesDir)Newtonsoft.Json.dll' KeyPath='yes' />
       </Component>
       <Component>
         <File Name='Fleck.dll' Source='$(var.BinariesResourcesDir)Fleck.dll' KeyPath='yes' />
-      </Component>
+      </Component> -->
       <Component>
         <File Name='BaseFiscalPrinterSimulatorLibraries.dll' Source='$(var.BinariesResourcesDir)BaseFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
       </Component>
       <Component>
-        <File Name='ThermalFiscalPrinterSimulatorLibraries.dll' Source='$(var.BinariesResourcesDir)ThermalFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
+        <File Name='ThermalFiscalPrinterSimulatorLibraries.dll' Source='$(var.BinariesResourcesDir)Plugins/ThermalFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
       </Component>
       <Component>
         <File Id='file_FPSimulator_WebsocketWindowsService' Name='$(var.FiscalPrinterSimulatorServiceName).exe' Source='$(var.BinariesResourcesDir)$(var.FiscalPrinterSimulatorServiceName).dll' KeyPath='yes'/>
