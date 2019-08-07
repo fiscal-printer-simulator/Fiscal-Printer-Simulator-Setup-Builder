@@ -97,7 +97,7 @@ CONTENT of Instalator:
         <File Name='ThermalFiscalPrinterSimulatorLibraries.dll' Source='$(var.BinariesResourcesDir)ThermalFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
       </Component>
       <Component>
-        <File Id='file_FPSimulator_WebsocketWindowsService' Name='$(var.FiscalPrinterSimulatorServiceName).exe' Source='$(var.BinariesResourcesDir)$(var.FiscalPrinterSimulatorServiceName).exe' KeyPath='yes'/>
+        <File Id='file_FPSimulator_WebsocketWindowsService' Name='$(var.FiscalPrinterSimulatorServiceName).exe' Source='$(var.BinariesResourcesDir)$(var.FiscalPrinterSimulatorServiceName).dll' KeyPath='yes'/>
         <ServiceInstall Id='serviceInstall_WebsocketWindowsService' Type='ownProcess' Name='$(var.FiscalPrinterSimulatorServiceName)' DisplayName='Fiscal Printer Simulator' Description='Fiscal Printer Websocket Based Simulator. Helps to develop with POS likely applications.' Start='auto' Account="[SERVICEACCOUNT]" Password="[SERVICEPASSWORD]" ErrorControl="normal" Arguments=" /start $(var.FiscalPrinterSimulatorServiceName)"/>
         <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="$(var.FiscalPrinterSimulatorServiceName)" Wait="yes" />
       </Component>
