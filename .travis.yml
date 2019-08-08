@@ -15,7 +15,7 @@ script:
   - npm install
   - npm run build
   - npm run test:cov
-  - npm run electron-pack-x64
+  - npm run electron-pack-x64-win
   - cd ../../
   - dotnet build ./SourceCodes/FiscalPrinterSimulatorService --configuration Release --verbosity n /p:Platform=x64
   - dotnet test ./SourceCodes/FiscalPrinterSimulatorService
