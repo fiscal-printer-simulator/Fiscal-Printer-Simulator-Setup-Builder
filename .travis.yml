@@ -6,7 +6,6 @@ dist: xenial
 solution: ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
 install:
   - nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
-  - wine --version
 node_js:
   - 8
 cache:
