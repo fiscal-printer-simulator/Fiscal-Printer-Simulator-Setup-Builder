@@ -4,7 +4,7 @@ sudo: required
 addons:
   apt:
     packages:
-    - wine1.7
+    - wine64
 dist: xenial
 solution: ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
 install:
