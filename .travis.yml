@@ -1,11 +1,13 @@
 language: csharp
 dotnet: 2.2
 sudo: required
+addons:
+  apt:
+    packages:
+    - wine1.7
 dist: xenial
 solution: ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
 install:
-  - apt-get install wine
-  - dpkg --add-architecture i386 && apt-get update && apt-get install wine32
   - nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
   - wine --version
 node_js:
