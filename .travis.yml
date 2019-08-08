@@ -4,7 +4,10 @@ sudo: required
 dist: xenial
 solution: ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
 install:
+  - apt-get install wine
+  - dpkg --add-architecture i386 && apt-get update && apt-get install wine32
   - nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
+  - wine --version
 node_js:
   - 8
 cache:
