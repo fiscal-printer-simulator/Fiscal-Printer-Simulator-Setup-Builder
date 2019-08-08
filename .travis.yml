@@ -1,43 +1,41 @@
-language: csharp
-dotnet: 2.2
-sudo: required
-addons:
-  apt:
-    packages:
-    - wine64
-dist: xenial
-solution: ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
-install:
-  - nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
-  - wine --version
-node_js:
-  - 8
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode10.2
+      language: node_js
+      node_js: "10"
+      env:
+        - ELECTRON_CACHE=$HOME/.cache/electron
+        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+
+    - os: linux
+      services: docker
+      language: generic
+
 cache:
   directories:
-    - SourceCodes/FiscalPrinterSimulatorClient/node_modules
+  - node_modules
+  - $HOME/.cache/electron
+  - $HOME/.cache/electron-builder
+
 script:
-  - cd SourceCodes/FiscalPrinterSimulatorClient/
-  - npm install
-  - npm run build
-  - npm run test:cov
-  - npm run electron-pack-x64-win
-  - cd ../../
-  - dotnet build ./SourceCodes/FiscalPrinterSimulatorService --configuration Release --verbosity n /p:Platform=x64
-  - dotnet test ./SourceCodes/FiscalPrinterSimulatorService
-  - cd ./CI/WixInstaller/FiscalPrinterSimulatorInstaller
-  - ../packages/WiX.3.11.1/tools/candle.exe -dPlatform=x64 -dVersion=0.0.1 Product.wxs -out myinstaller.wixobj
-  - ../packages/WiX.3.11.1/tools/light.exe myinstaller.wixobj -cultures:en-us -loc Translations/EnglishLanguage.wxl -out test-installer-en.msi -ext ../packages/WiX.3.11.1/tools/WixUIExtension
-global:
-  - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-  - DOTNET_CLI_TELEMETRY_OPTOUT=1
-before_deploy: 
-  - "git config --local user.name \"wojcikmm\""
-  - "git config --local user.email \"m.mwojcik@outlook.com\""
-deploy: 
-  api_key: GITHUB_TOKEN
-  draft: true
-  file: test-installer-en.msi
-  provider: releases
-  skip_cleanup: true
-  true: 
-    tags: true
+  - cd ./SourceCodes/FiscalPrinterSimulatorClient
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      docker run --rm \
+        --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
+        -v ${PWD}:/project \
+        -v ~/.cache/electron:/root/.cache/electron \
+        -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+        electronuserland/builder:wine \
+        /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn release --linux --win"
+    else
+      yarn release
+    fi
+
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
+
+branches:
+  except:
+    - "/^v\\d+\\.\\d+\\.\\d+$/"
