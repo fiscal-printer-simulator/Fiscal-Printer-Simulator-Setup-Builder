@@ -10,11 +10,12 @@ node_js:
   - 8
 script:
   - BASE_DIR=/home/travis/build/fiscal-printer-simulator
-  - PACKAGES_DIR=$BASE_DIR/CI/WixInstaller/packages/tools
+  - PACKAGES_DIR=$BASE_DIR/CI/WixInstaller/packages/WiX.3.11.1/tools
   - DELIVERY_DIR=$BASE_DIR/delivery
   - RESOURCES_DIR=$BASE_DIR/Resources
   - TRANSLATIONS_DIR=$RESOURCES_DIR/Translations
   - LICENCE_PATH=$RESOURCES_DIR/Licences
+  - ls $PACKAGES_DIR
   - |
     $PACKAGES_DIR/candle.exe     -dVersion=0.0.2 \
     -dConfiguration=Release \
