@@ -15,8 +15,10 @@ script:
   - dotnet test ./SourceCodes/FiscalPrinterSimulatorService
   - cd SourceCodes/FiscalPrinterSimulatorClient/
   - docker run --rm -v $FP_SIMULATOR_CLIENT_RESOURCE_DIR:/Resources/Binaries/Client -v $FP_SIMULATOR_CLIENT_DIR:/app electronuserland/builder:wine bash -c "cd /app && npm install && npm run electron-pack-x64-win"
-  - cd ....//CI/WixInstaller/FiscalPrinterSimulatorInstaller
+  - cd  ../../CI/WixInstaller/FiscalPrinterSimulatorInstaller
   - ../packages/WiX.3.11.1/tools/candle.exe -dPlatform=x64 -dVersion=0.0.1 Product.wxs -out myinstaller.wixobj
+  - ls
+  - ls ../packages/WiX.3.11.1/tools/
   - ../packages/WiX.3.11.1/tools/light.exe myinstaller.wixobj -cultures:en-us -loc Translations/EnglishLanguage.wxl -out test-installer-en.msi -ext ../packages/WiX.3.11.1/tools/WixUIExtension
 global:
   - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
