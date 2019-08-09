@@ -1,13 +1,12 @@
 language: csharp
-dotnet: 2.2
+#dotnet: 2.2
+mono: none
 sudo: required
-services: docker
+#services: docker
 dist: xenial
 solution: ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
 install:
   - nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
-node_js:
-  - 8
 script:
   - BASE_DIR=/home/travis/build/fiscal-printer-simulator/Fiscal-Printer-Simulator-Setup-Builder
   - PACKAGES_DIR=$BASE_DIR/CI/WixInstaller/packages/WiX.3.11.1/tools
@@ -29,14 +28,14 @@ script:
     -dLicencePath=$LICENCE_PATH/Licence-en.rtf \
     -dTargetPath=$DELIVERY_DIR/SetupFiscalPrinterSimulatorx64.msi  \
     -arch x64 \
-    -ext $PACKAGES_DIR/WixUIExtension.dll \
+    -ext $PACKAGES_DIR/WixUIExtension \
     FiscalPrinterSimulatorInstaller\Product.wxs
   - |
     $PACKAGES_DIR/light.exe \
-    -out $DELIVERY_DIR/SetupFiscalPrinterSimulatorx64.msi \
-    -pdbout $DELIVERY_DIR/SetupFiscalPrinterSimulatorx64.wixpdb \
+    -out delivery/SetupFiscalPrinterSimulatorx64.msi \
+    -pdbout delivery/SetupFiscalPrinterSimulatorx64.wixpdb \
     -cultures:en-US \
-    -ext $PACKAGES_DIR/WixUIExtension.dll  \
+    -ext $PACKAGES_DIR/WixUIExtension  \
     -loc $TRANSLATIONS_DIR/EnglishLanguage.wxl \
     -loc $TRANSLATIONS_DIR/PolishLanguage.wxl \
     Product.wixobj
