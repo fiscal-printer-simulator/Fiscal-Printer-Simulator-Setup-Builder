@@ -9,7 +9,7 @@ install:
 node_js:
   - 8
 script:
-  - BASE_DIR=/home/travis/build/fiscal-printer-simulator
+  - BASE_DIR=/home/travis/build/fiscal-printer-simulator/Fiscal-Printer-Simulator-Setup-Builder
   - PACKAGES_DIR=$BASE_DIR/CI/WixInstaller/packages/WiX.3.11.1/tools
   - DELIVERY_DIR=$BASE_DIR/delivery
   - RESOURCES_DIR=$BASE_DIR/Resources
