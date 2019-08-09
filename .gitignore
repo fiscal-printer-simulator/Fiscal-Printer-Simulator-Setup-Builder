@@ -1,5 +1,5 @@
 Delivery/*
-Resources/*Binaries/*
+
 CI/CakeScripts/tools/*
 CI/CakeScripts/TestResult.xml
 CI/WixInstaller/packages/*
