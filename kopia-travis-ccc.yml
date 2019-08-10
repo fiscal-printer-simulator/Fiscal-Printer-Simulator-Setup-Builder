@@ -1,0 +1,36 @@
+language: csharp
+dotnet: 2.2
+sudo: required
+services: docker
+dist: xenial
+solution: ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
+install:
+  - nuget restore ./CI/WixInstaller/FiscalPrinterSimulatorInstaller.sln
+node_js:
+  - 8
+script:
+  - mkdir -p ./Release/Binaries/Client
+  - mkdir -p ./Release/Binaries/Plugins
+  - dotnet build ./SourceCodes/FiscalPrinterSimulatorService --configuration Release --verbosity n /p:Platform=x64
+  - dotnet test ./SourceCodes/FiscalPrinterSimulatorService
+  - cd SourceCodes/FiscalPrinterSimulatorClient/
+  - docker run --rm -v $FP_SIMULATOR_CLIENT_RESOURCE_DIR:/Resources/Binaries/Client -v $FP_SIMULATOR_CLIENT_DIR:/app electronuserland/builder:wine bash -c "cd /app && npm install && npm run electron-pack-x64-win"
+  - cd  ../../CI/WixInstaller/FiscalPrinterSimulatorInstaller
+  - ../packages/WiX.3.11.1/tools/candle.exe -dPlatform=x64 -dVersion=0.0.1 Product.wxs -out myinstaller.wixobj
+  - ls
+  - ls ../packages/WiX.3.11.1/tools/
+  - ../packages/WiX.3.11.1/tools/light.exe myinstaller.wixobj -cultures:en-us -loc Translations/EnglishLanguage.wxl -out test-installer-en.msi -ext ../packages/WiX.3.11.1/tools/WixUIExtension
+global:
+  - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+  - DOTNET_CLI_TELEMETRY_OPTOUT=1
+before_deploy: 
+  - "git config --local user.name \"wojcikmm\""
+  - "git config --local user.email \"m.mwojcik@outlook.com\""
+deploy: 
+  api_key: GITHUB_TOKEN
+  draft: true
+  file: test-installer-en.msi
+  provider: releases
+  skip_cleanup: true
+  true: 
+    tags: true
