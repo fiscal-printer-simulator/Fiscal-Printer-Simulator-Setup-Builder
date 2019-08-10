@@ -35,7 +35,7 @@
                       Directory="INSTALLFOLDER">
       <Component Id="cmpMyTextFileTXT" 
                     Guid="{A4540658-09B6-46DA-8880-0B1962E06642}">
-        <File Source="MyTextFile.txt" />
+        <File Source="packages.config" />
       </Component>
     </ComponentGroup>
   </Fragment>
