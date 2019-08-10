@@ -36,27 +36,3 @@ deploy:
   skip_cleanup: true
   true: 
     tags: true
-
-
-$ ../packages/WiX.3.11.1/tools/candle.exe -dPlatform=x64 -dVersion=0.0.1 Product.wxs -out myinstaller.wixobj
-Windows Installer XML Toolset Compiler version 
-Copyright (c) .NET Foundation and contributors. All rights reserved.
-Product.wxs
-The command "../packages/WiX.3.11.1/tools/candle.exe -dPlatform=x64 -dVersion=0.0.1 Product.wxs -out myinstaller.wixobj" exited with 0.
-
-
------------------------------------------------
-$ ../packages/WiX.3.11.1/tools/light.exe myinstaller.wixobj -cultures:en-us -loc Translations/EnglishLanguage.wxl -out test-installer-en.msi -ext ../packages/WiX.3.11.1/tools/WixUIExtension
-Windows Installer XML Toolset Linker version 
-Copyright (c) .NET Foundation and contributors. All rights reserved.
-light.exe : error LGHT0001 : Invalid Image
-Exception Type: System.IO.FileNotFoundException
-Stack Trace:
-  at (wrapper managed-to-native) System.Reflection.Assembly.LoadFile_internal(string,System.Threading.StackCrawlMark&)
-  at System.Reflection.Assembly.LoadFile (System.String path, System.Security.Policy.Evidence securityEvidence) [0x0002d] in <15c986724bdc480293909469513cfdb3>:0 
-  at System.Reflection.Assembly.LoadFile (System.String path) [0x00000] in <15c986724bdc480293909469513cfdb3>:0 
-  at Microsoft.Tools.WindowsInstallerXml.Binder.ExtractCabinets (System.Collections.Hashtable cabinets) [0x00068] in <df790cde4823466b88b6fb893e19a9be>:0 
-  at Microsoft.Tools.WindowsInstallerXml.Binder.BindDatabase (Microsoft.Tools.WindowsInstallerXml.Output output, System.String databaseFile) [0x00620] in <df790cde4823466b88b6fb893e19a9be>:0 
-  at Microsoft.Tools.WindowsInstallerXml.Binder.Bind (Microsoft.Tools.WindowsInstallerXml.Output output, System.String file) [0x00298] in <df790cde4823466b88b6fb893e19a9be>:0 
-  at Microsoft.Tools.WindowsInstallerXml.Tools.Light.Run (System.String[] args) [0x009b1] in <794f56962d5b40c4aa09607a485d0347>:0 
-The command "../packages/WiX.3.11.1/tools/light.exe myinstaller.wixobj -cultures:en-us -loc Translations/EnglishLanguage.wxl -out test-installer-en.msi -ext ../packages/WiX.3.11.1/tools/WixUIExtension" exited with 1.
