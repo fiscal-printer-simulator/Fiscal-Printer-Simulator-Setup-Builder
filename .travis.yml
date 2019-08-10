@@ -16,12 +16,12 @@ script:
   - LICENCE_PATH=$RESOURCES_DIR/Licences
   - ls $PACKAGES_DIR
   - cd $WIX_PROJ_DIR
-  - #$PACKAGES_DIR/candle.exe -dPlatform=x64 -dVersion=0.0.1 Product.wxs -out myinstaller.wixobj
+  - $PACKAGES_DIR/candle.exe -dPlatform=x64 -dVersion=0.0.1 Product.wxs -out myinstaller.wixobj
   - #$PACKAGES_DIR/candle.exe  -dConfiguration=Release -dTargetDir=$DELIVERY_DIR -dTargetExt=.msi -dTargetFileName=SetupFiscalPrinterSimulatorx64.msi -dTargetName=SetupFiscalPrinterSimulatorx64 -dResourcesDir=$RESOURCES_DIR -dLicencePath=$LICENCE_PATH/Licence-en.rtf -dTargetPath=$DELIVERY_DIR/SetupFiscalPrinterSimulatorx64.msi  -arch x64 $WIX_PROJ_DIR/Product.wxs  -out myinstaller.wixobj 
   - ls
-  - cat myinstaller_lin.wixobj
+  - cat myinstaller.wixobj
   #- $PACKAGES_DIR/light.exe -out SetupFiscalPrinterSimulatorx64.msi -ext $PACKAGES_DIR/WixUIExtension -pdbout SetupFiscalPrinterSimulatorx64.wixpdb -cultures:en-US -loc Translations/EnglishLanguage.wxl myinstaller.wixobj 
-  - $PACKAGES_DIR/light.exe myinstaller_lin.wixobj -cultures:en-us -loc Translations/EnglishLanguage.wxl -out test-installer-en.msi -ext ../packages/WiX.3.11.1/tools/WixUIExtension
+  - $PACKAGES_DIR/light.exe myinstaller.wixobj -cultures:en-us -loc Translations/EnglishLanguage.wxl -out test-installer-en.msi -ext ../packages/WiX.3.11.1/tools/WixUIExtension
 global:
   - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
   - DOTNET_CLI_TELEMETRY_OPTOUT=1
