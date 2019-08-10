@@ -7,7 +7,23 @@ CONTENT of Instalator:
 - Diagnostic tool
 -->
 
-<?include Variables.wxi?>
+<?define ResourcesDir="../../../Resources/" ?>
+
+  <?if $(var.Platform) = x64?>
+  <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+  <?define ProductBitDescription = ""?>
+  <?else?>
+  <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+  <?define ProductBitDescription = "32 bit"?>
+  <?endif?>
+
+  <?define RegistryPath="Software\[Manufacturer]\[ProductName]" ?>
+  <?define GraphicsResourcesDir="$(var.ResourcesDir)Graphics/" ?>
+  <?define BinariesResourcesDir="$(var.ResourcesDir)Binaries/" ?>
+  <?define TranslationsResourcesDir="$(var.ResourcesDir)Translations/"?>
+  <?define LicenceFileBase="$(var.ResourcesDir)Licences/Licence" ?>
+  <?define serviceRestartTime=60 ?>
+  <?define FiscalPrinterSimulatorServiceName="FiscalPrinterSimulatorService"?>
 
 
 
