@@ -28,7 +28,7 @@ CONTENT of Instalator:
     <Property Id="ARPPRODUCTICON" Value="win_desktop_app.ico" />
 
     <CustomAction Id="LaunchApplication" FileKey="file_FPSimulator_DesktopClientApp" ExeCommand="" Return="asyncNoWait"/>
-    <CustomAction Id='setupService' Directory='INSTALLFOLDER' Execute='deferred' Impersonate='no' ExeCommand='cmd.exe \c sc failure \"${varserviceInstaller.ServiceName}\" reset= 0 actions= restart/{$(var.serviceRestartTime)}/restart/{$(var.serviceRestartTime)}/restart/{$(var.serviceRestartTime)}' Return='check' />
+    <CustomAction Id='setupService' Directory='INSTALLFOLDER' Execute='deferred' Impersonate='no' ExeCommand='cmd.exe \c sc failure \"${varserviceInstaller.ServiceName}\" reset= 0 actions= restart/{$(var.ServiceRestartTime)}/restart/{$(var.ServiceRestartTime)}/restart/{$(var.ServiceRestartTime)}' Return='check' />
   </Product>
 
   <Fragment>
@@ -84,17 +84,17 @@ CONTENT of Instalator:
       <Component>
         <RegistryValue Root='HKCU' Key='$(var.RegistryPath)' Name='WindowsService' Type='integer' Value='0' KeyPath='yes' />
       </Component>
-      <Component>
+      <!-- <Component>
         <File Name='Newtonsoft.Json.dll' Source='$(var.BinariesResourcesDir)Newtonsoft.Json.dll' KeyPath='yes' />
-      </Component>
-      <Component>
+      </Component> -->
+      <!-- <Component>
         <File Name='Fleck.dll' Source='$(var.BinariesResourcesDir)Fleck.dll' KeyPath='yes' />
-      </Component>
+      </Component> -->
       <Component>
         <File Name='BaseFiscalPrinterSimulatorLibraries.dll' Source='$(var.BinariesResourcesDir)BaseFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
       </Component>
       <Component>
-        <File Name='ThermalFiscalPrinterSimulatorLibraries.dll' Source='$(var.BinariesResourcesDir)ThermalFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
+        <File Name='ThermalFiscalPrinterSimulatorLibraries.dll' Source='$(var.PluginsResourcesDir)ThermalFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
       </Component>
       <Component>
         <File Id='file_FPSimulator_WebsocketWindowsService' Name='$(var.FiscalPrinterSimulatorServiceName).exe' Source='$(var.BinariesResourcesDir)$(var.FiscalPrinterSimulatorServiceName).exe' KeyPath='yes'/>
@@ -110,7 +110,7 @@ CONTENT of Instalator:
   <Fragment>
     <ComponentGroup Id="compGroup_DesktopApp" Directory="FP_BIN_DIR">
       <Component>
-        <File Id='file_FPSimulator_DesktopClientApp' Name='FiscalPrinterSimulatorClient.exe' Source='$(var.BinariesResourcesDir)Client\Fiscal Printer Simulator Client 0.1.0.exe' KeyPath='yes'/>
+        <File Id='file_FPSimulator_DesktopClientApp' Name='FiscalPrinterSimulatorClient.exe' Source='$(var.BinariesResourcesDir)Client\Fiscal Printer Simulator Client $(var.Version).exe' KeyPath='yes'/>
         <Shortcut Id='desktopShortCut_FPSimulator_ClientApp' Icon='win_desktop_app.ico' Directory='DesktopFolder' Name='Fiscal Printer Simulator' Advertise='yes' WorkingDirectory='FP_BIN_DIR'/>
         <Shortcut Id='menuShortCut_FPSimulator_ClientApp' Icon='win_desktop_app.ico' Directory='ProgramMenuFolder' Name='Fiscal Printer Simulator' Advertise='yes' WorkingDirectory='FP_BIN_DIR'/>
       </Component>

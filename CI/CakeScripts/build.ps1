@@ -38,8 +38,8 @@ https://cakebuild.net
 [CmdletBinding()]
 Param(
     [string]$Script = "build.cake",
-    [string]$ReleaseVersion = "1.0.0",
-    [string]$BuildVersion = "0",
+    [string]$ReleaseVersion,
+    [string]$BuildVersion,
     [ValidateSet("Debug", "Release")]
     [string]$Configuration,
     [ValidateSet("Quiet", "Minimal", "Normal", "Verbose", "Diagnostic")]
