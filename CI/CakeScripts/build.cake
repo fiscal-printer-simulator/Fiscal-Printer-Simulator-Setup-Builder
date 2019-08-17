@@ -59,17 +59,22 @@ Task ("Build Fiscal Printer Simulator Service")
 
 Task ("Build Fiscal Printer Simulator Installer")
     .IsDependentOn ("Build Fiscal Printer Simulator Service")
-    .Does (() => {
-        MSBuild(WIX_InstallerSolutionPath, new MSBuildSettings {
-                Verbosity = verbosity ? Verbosity.Verbose : Verbosity.Minimal,
-                ToolVersion = MSBuildToolVersion.VS2019,
-                Configuration =configuration,
-                PlatformTarget = targetPlatform == "x64" ? PlatformTarget.x64 : PlatformTarget.x86,
-                 EnvironmentVariables = new Dictionary<string, string>{
-                    {"AppVersion",ReleaseVersion },
-                    {"BuildNumber", buildNumber }
-                }
-        });
+    .Does (() => {              
+            var msBuildTarget = targetPlatform == "x64" ? MSBuildPlatform.x64 : MSBuildPlatform.x86;
+            var msBuildVerbosity = verbosity ? Verbosity.Verbose : Verbosity.Minimal;
+
+        MSBuild(WIX_InstallerSolutionPath, configurator => 
+                configurator
+                .SetConfiguration(configuration)
+                .SetVerbosity(msBuildVerbosity)
+                .UseToolVersion(MSBuildToolVersion.VS2019)
+                .SetMSBuildPlatform(msBuildTarget)
+                .WithProperty("Version",ReleaseVersion+buildNumber)
+                .WithProperty("BuildNumber",buildNumber)
+                .WithProperty("Platform",targetPlatform)
+            );
+
+       
     });
 
 Task ("EndBuild")

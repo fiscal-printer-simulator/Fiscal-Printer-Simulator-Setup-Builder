@@ -28,4 +28,10 @@
 
   <String Id="InstallFolderPathChooseDialogTitle">{\WixUI_Font_Title}Select the application's root folder</String>
   <String Id="InstallFolderPathChooseDialogDescription">Select the folder in which the Application will be installed</String>
+
+  <String Id="descWinServicePluginsAppNodeTitle">Plugins</String>
+  <String Id="descWinServicePluginsAppNode">Plugins providing support for specific fiscal printer drivers.</String>
+  <String Id="descWinServicePluginThermalAppNodeTitle">[PL] Thermal</String>
+  <String Id="descWinServicePluginThermalAppNode">Plugin providing support for the Polish Thermal protocol.</String>
+  
 </WixLocalization>

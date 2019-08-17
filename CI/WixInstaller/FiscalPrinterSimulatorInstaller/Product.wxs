@@ -42,6 +42,7 @@ CONTENT of Instalator:
       <Directory Id="$(var.PlatformProgramFilesFolder)">
         <Directory Id="INSTALLFOLDER" Name="Fiscal Printer Simulator">
           <Directory Id="FP_BIN_DIR" Name="bin">
+            <Directory Id="FP_BIN_PLUGINS_DIR" Name="Plugins"/>
             <Directory Id="FP_BIN_TRANSLATIONS_DIR" Name="Translations"/>
           </Directory>
           <Directory Id="FP_CONFIG_DIR" Name="config"/>
@@ -62,6 +63,11 @@ CONTENT of Instalator:
           <Feature Id="feature_app_desktop" Title="!(loc.descDesktopAppNodeTitle)" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppNode)">
             <ComponentGroupRef Id="compGroup_DesktopApp"/>
           </Feature>
+          <Feature Id="feature_app_plugins" Title="!(loc.descWinServicePluginsAppNodeTitle)" InstallDefault="local" Absent="disallow" AllowAdvertise="no" Description="!(loc.descWinServicePluginsAppNode)">
+            <Feature Id="feature_app_plugins_thermal" Title="!(loc.descWinServicePluginThermalAppNodeTitle)" InstallDefault="local" Absent="disallow" AllowAdvertise="no" Description="!(loc.descWinServicePluginThermalAppNode)">
+              <ComponentGroupRef Id="compGroup_simulator_windows_service_plugins" />
+            </Feature>
+          </Feature>
           <Feature Id="feature_app_desktop_translations"  Title="!(loc.descDesktopAppTranslationsMainNodeTitle)" Absent="disallow" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppTranslationsMainNode)">
             <ComponentGroupRef Id="compGroup_DesktopAppTranslationsRoot" />
             <Feature Id="feature_app_desktop_translationsEN" Title="!(loc.descDesktopAppTranslationsENNodeTitle)" Absent="disallow" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDesktopAppTranslationsENNode)">
@@ -72,9 +78,9 @@ CONTENT of Instalator:
             </Feature>
           </Feature>
         </Feature>
-        <Feature Id="feature_diagnostic_tool" Title="!(loc.descDiagnosticToolNodeTitle)" Level="2" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDiagnosticToolNode)">
+        <!--<Feature Id="feature_diagnostic_tool" Title="!(loc.descDiagnosticToolNodeTitle)" Level="2" InstallDefault="local" AllowAdvertise="no" Description="!(loc.descDiagnosticToolNode)">
           <ComponentGroupRef Id="compGroup_DiagnosticTool"/>
-        </Feature>
+        </Feature>-->
     </FeatureGroup>
   </Fragment>
 
@@ -84,26 +90,33 @@ CONTENT of Instalator:
       <Component>
         <RegistryValue Root='HKCU' Key='$(var.RegistryPath)' Name='WindowsService' Type='integer' Value='0' KeyPath='yes' />
       </Component>
-      <!-- <Component>
+       <Component>
         <File Name='Newtonsoft.Json.dll' Source='$(var.BinariesResourcesDir)Newtonsoft.Json.dll' KeyPath='yes' />
-      </Component> -->
-      <!-- <Component>
+      </Component> 
+       <Component>
         <File Name='Fleck.dll' Source='$(var.BinariesResourcesDir)Fleck.dll' KeyPath='yes' />
-      </Component> -->
+      </Component> 
       <Component>
         <File Name='BaseFiscalPrinterSimulatorLibraries.dll' Source='$(var.BinariesResourcesDir)BaseFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
       </Component>
       <Component>
-        <File Name='ThermalFiscalPrinterSimulatorLibraries.dll' Source='$(var.PluginsResourcesDir)ThermalFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
-      </Component>
-      <Component>
         <File Id='file_FPSimulator_WebsocketWindowsService' Name='$(var.FiscalPrinterSimulatorServiceName).exe' Source='$(var.BinariesResourcesDir)$(var.FiscalPrinterSimulatorServiceName).exe' KeyPath='yes'/>
-        <ServiceInstall Id='serviceInstall_WebsocketWindowsService' Type='ownProcess' Name='$(var.FiscalPrinterSimulatorServiceName)' DisplayName='Fiscal Printer Simulator' Description='Fiscal Printer Websocket Based Simulator. Helps to develop with POS likely applications.' Start='auto' Account="[SERVICEACCOUNT]" Password="[SERVICEPASSWORD]" ErrorControl="normal" Arguments=" /start $(var.FiscalPrinterSimulatorServiceName)"/>
+        <!--<ServiceInstall Id='serviceInstall_WebsocketWindowsService' Type='ownProcess' Name='$(var.FiscalPrinterSimulatorServiceName)' DisplayName='Fiscal Printer Simulator' Description='Fiscal Printer Websocket Based Simulator. Helps to develop with POS likely applications.' Start='auto' Account="[SERVICEACCOUNT]" Password="[SERVICEPASSWORD]" ErrorControl="normal" Arguments=" /start $(var.FiscalPrinterSimulatorServiceName)"/>
+        <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="$(var.FiscalPrinterSimulatorServiceName)" Wait="yes" />-->
+        <ServiceInstall Id="ServiceInstaller" Type="ownProcess" Name="$(var.FiscalPrinterSimulatorServiceName)" DisplayName="$(var.FiscalPrinterSimulatorServiceName)" Description="Fiscal Printer Websocket Based Simulator. Helps to develop with POS likely applications." Start="auto" ErrorControl="normal" />
         <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="$(var.FiscalPrinterSimulatorServiceName)" Wait="yes" />
       </Component>
     </ComponentGroup>
   </Fragment>
 
+  <!--Simulator Windows Service Plugins Components-->
+  <Fragment>
+    <ComponentGroup Id="compGroup_simulator_windows_service_plugins" Directory="FP_BIN_PLUGINS_DIR">
+      <Component>
+          <File Name='ThermalFiscalPrinterSimulatorLibraries.dll' Source='$(var.PluginsResourcesDir)ThermalFiscalPrinterSimulatorLibraries.dll' KeyPath='yes' />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
 
 
   <!--Simulator Desktop Application Components-->

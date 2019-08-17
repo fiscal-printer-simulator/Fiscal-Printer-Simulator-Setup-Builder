@@ -27,4 +27,10 @@
 
   <String Id="InstallFolderPathChooseDialogTitle">{\WixUI_Font_Title}Wybierz folder główny aplikacji</String>
   <String Id="InstallFolderPathChooseDialogDescription">Wybierz folder w którym zostanie zainstalowana Aplikacja</String>
+
+  <String Id="descWinServicePluginsAppNodeTitle">Pluginy</String>
+  <String Id="descWinServicePluginsAppNode">Pluginy zapewniające obsługę konkretnych sterowników drukarek fiskalnych.</String>
+  <String Id="descWinServicePluginThermalAppNodeTitle">[PL] Thermal</String>
+  <String Id="descWinServicePluginThermalAppNode">Plugin zapewniający obsługę Polskiego protokołu Thermal.</String>
+
 </WixLocalization>
